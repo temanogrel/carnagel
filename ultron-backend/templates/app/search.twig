@@ -1,0 +1,43 @@
+{% extends '@layout/default.twig' %}
+
+{% block title %} {{ query }} search results {% endblock %}
+
+{% block content %}
+    <div class="search-numbers">{{ recordings.getTotalItemCount() }} search results for <span>"{{query}}"</span></div>
+
+    {% for recording in recordings %}
+        <div class="post-container grid-4 tablet-grid-6 mobile-grid-12">
+            <a href="{{ path('recording.details', {slug: recording.getSlug(), prefix: site.getUrlRoot()}) }}" class="post-name">
+                <h2>{{ recording.getRecordingTitle() }}</h2>
+            </a>
+
+            <span class="post-date">{{ recording.getCreatedAt() | date('F d, Y') }}</span>
+
+            <a href="{{ path('recording.details', {slug: recording.getSlug(), prefix: site.getUrlRoot()}) }}" target="_blank" class="post-content">
+
+                <img src="{{ recording.getImageUrls().getThumb() }}" />
+
+                <div class="attribute-category pt20">Size:</div>
+                <div class="attribute pt20">{{ (recording.getSize() / (1024 * 1024)) | round(2) }} MB</div>
+                <div class="attribute-category">Duration:</div>
+                <div class="attribute">{{ recording.getFormattedDuration() }}</div>
+                <div class="attribute-category">avg.Bitrate:</div>
+                <div class="attribute">{{ (recording.getBitRate() / 1024) | round(2) }} kb/s</div>
+                <div class="attribute-category">Audio:</div>
+                <div class="attribute">{{ recording.getAudio() }}</div>
+                <div class="attribute-category">Video:</div>
+                <div class="attribute">{{ recording.getVideo() }}</div>
+                <div class="clear"></div>
+
+            </a>
+            <a href="{{ recording.getVideoUrl() }}" class="button" target="_blank">
+                Download <span>http://upstore.net</span>
+            </a>
+        </div>
+    {% endfor %}
+
+    <div class="clear"></div>
+
+    {% include '@app/misc/pagination.twig' %}
+
+{% endblock %}

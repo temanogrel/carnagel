@@ -1,0 +1,70 @@
+@import "../reset";
+
+$color0: #303030;
+$color1: #ffffff;
+$color1-hover: #ff71aa;
+$color2: #ffffff;
+$color3: #fff7fc;
+$color4: #ffffff;
+$search-color: #ff71aa;
+$search-color-hover: #ff71aa;
+$search-text: #ffffff;
+$tablet: 1200px;
+$mobile: 800px;
+$logo-link: url(../img/sweetcams/logo.png);
+$search-link: url(../img/sweetcams/search.png);
+
+body .content .post-container .post-content{}
+
+.button, .footer a{
+    background: -webkit-linear-gradient(#ff71aa, #f35d99); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#ff71aa, #f35d99); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ff71aa, #f35d99); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#ff71aa, #f35d99); /* Standard syntax */
+    box-shadow:0 1px 0 #f974aa inset;
+    border-radius: 3px;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+
+    &:hover{
+        background: -webkit-linear-gradient(#8cc25c, #82b653); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#8cc25c, #82b653); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#8cc25c, #82b653); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#8cc25c, #82b653); /* Standard syntax */
+        box-shadow:0 1px 0 #afe77e inset;
+    }
+}
+
+body .content .post-container .post-content, body .content .post-container .button.search-similar{margin-bottom: 5px;}
+
+body .dmca .dmca-text{text-shadow: none;}
+
+body .footer a.numberofpages, body .footer a.active{
+    background-image:none;
+    box-shadow: none;
+    color: #535353;
+}
+
+
+.header {
+    box-shadow:0 1px 3px #e6e6e6;
+
+    .search{
+    margin: -115px 20px 0 0;
+    border-radius: 3px;
+    height: 100px;
+    box-shadow:0 1px 3px #b5b5b5 inset;
+    }
+}
+
+.footer a.active{
+    background-image: none;
+    box-shadow:none;
+    border-radius: 3px;
+}
+
+.post-content{border-radius: 3px;}
+
+@import "../additions";
+@import "../custom";
+@import "../style";

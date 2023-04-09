@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>{% block title %}Start page{% endblock %} - {{ site.getDomain() | title }}</title>
+
+    <link rel="stylesheet" href="{{ site.getTheme() }}">
+    <link rel="shortcut icon" href="{{ site.getFavicon() }}" type="image/x-icon" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900" type="text/theme">
+
+    {% if keywords is defined %}<meta name="keywords" content="{{ unique(keywords, base_keywords) | join(', ') }}"/>{% endif %}
+    {% if description is defined %}<meta name="description" content="{{ description }}"/>{% endif %}
+</head>
+<body>
+
+<a class="backtotop">Back to top</a>
+
+<header class="header">
+    <a href="/" class="logo"></a>
+
+    <form action="/search" method="post">
+        <input size="12" name="query" class="search" type="text" placeholder="SEARCH" value="{{ query|default('') }}">
+    </form>
+</header>
+
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    $(function() {
+        'use strict';
+
+        // Go to a specific page
+        $('#page_input').keydown(function(evt) {
+            if (evt.keyCode === 13) {
+                window.location.search = 'page=' + $(evt.target).val();
+            }
+        });
+
+        // Listen to the button
+        $('#goto_page_button').click(function() {
+            window.location.search = 'page=' + $('#page_input').val();
+        });
+
+        // Display back to top when scrolling down
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 48) {
+                $('.backtotop').addClass('active');
+            } else {
+                $('.backtotop').removeClass('active');
+            }
+        });
+
+        // Back to top we go
+        $('.backtotop').click(function() {
+            $('html, body').animate({
+                scrollTop: 0
+            })
+        });
+    });
+</script>
+</body>
+</html>

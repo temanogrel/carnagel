@@ -1,0 +1,60 @@
+@import "../reset";
+
+$color0: #ffffff;
+$color1: #88bf57;
+$color1-hover: #80b74f;
+$color2: #7db04f;
+$color3: #e4e4e4;
+$color4: #2a2a2a;
+$search-color: #7db04f;
+$search-color-hover: #74a24a;
+$search-text: #88bf57;
+$tablet: 1200px;
+$mobile: 800px;
+$logo-link: url(../img/nakedcamvideos/logo.png);
+$search-link: url(../img/nakedcamvideos/search.png);
+
+.post-name, .post-date, .numberofpages, .footer .grid-1 a.active, .error, .dmca form, .search-numbers {color: #2a2a2a;}
+
+.button, .footer a{
+    background: -webkit-linear-gradient(#93cb60, #88bf57); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#93cb60, #88bf57); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#93cb60, #88bf57); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#93cb60, #88bf57); /* Standard syntax */
+    box-shadow:0 1px 0 #afe77e inset;
+    border-radius: 3px;
+
+    &:hover{
+        background: -webkit-linear-gradient(#8cc25c, #82b653); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#8cc25c, #82b653); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#8cc25c, #82b653); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#8cc25c, #82b653); /* Standard syntax */
+        box-shadow:0 1px 0 #afe77e inset;
+    }
+}
+
+body .content .post-container .post-content, body .content .post-container .button.search-similar{margin-bottom: 5px;}
+
+body .footer a.numberofpages{
+    background-image:none;
+    box-shadow: none;
+}
+
+.header .search{
+    margin: -115px 20px 0 0;
+    border-radius: 3px;
+    height: 100px;
+    box-shadow:0 1px 0 #76a44d inset;
+}
+
+.footer a.active{
+    background-image: none;
+    box-shadow:none;
+    border-radius: 3px;
+}
+
+.post-content{border-radius: 3px;}
+
+@import "../additions";
+@import "../custom";
+@import "../style";

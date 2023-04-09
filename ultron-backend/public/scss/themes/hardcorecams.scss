@@ -1,0 +1,67 @@
+@import "../reset";
+
+$color0: #ffffff;
+$color1: #efaf4d;
+$color1-hover: #eaa53b;
+$color2: #444444;
+$color3: #272727;
+$color4: #e3e3e3;
+$search-color: #df9d39;
+$search-color-hover: #df9d39;
+$search-text: #efaf4d;
+$tablet: 1200px;
+$mobile: 800px;
+$logo-link: url(../img/hardcorecams/logo.png);
+$search-link: url(../img/hardcorecams/search.png);
+
+body .content .post-container .button{
+    border-color: #e0931d !important;
+}
+
+.button, .footer a{
+    background: -webkit-linear-gradient(#efaf4d, #eca437); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#efaf4d, #eca437); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#efaf4d, #eca437); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#efaf4d, #eca437); /* Standard syntax */
+    box-shadow:0 1px 0 #f6b655 inset;
+
+    &:hover{
+        background: -webkit-linear-gradient(#e19a43, #dc9030); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#e19a43, #dc9030); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#e19a43, #dc9030); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#e19a43, #dc9030); /* Standard syntax */
+        box-shadow:0 1px 0 #f6b655 inset;
+    }
+}
+
+.footer a.numberofpages, .footer a.active{
+    background-image: none;
+    box-shadow:none;
+}
+
+body .footer a {
+    input{
+    color: $color2;
+    }
+
+    input::-webkit-input-placeholder {
+        color: $color2;
+    }
+
+    input:-moz-placeholder { /* Firefox 18- */
+        color: $color2;
+    }
+
+    input::-moz-placeholder {  /* Firefox 19+ */
+        color: $color2;
+    }
+
+    input:-ms-input-placeholder {
+        color: $color2;
+    }
+}
+
+@import "../additions";
+@import "../custom";
+@import "../style";
+

@@ -1,0 +1,89 @@
+@import "../reset";
+
+$color0: #ffffff;
+$color1: #000000;
+$color1-hover: #000000;
+$color2: #000000;
+$color3: #303030;
+$color4: #303030;
+$search-color: #2a2a2a;
+$search-color-hover: #2a2a2a;
+$search-text: #000000;
+$tablet: 1200px;
+$mobile: 800px;
+$logo-link: url(../img/camsexvideos/logo.png);
+$search-link: url(../img/camsexvideos/search.png);
+
+html body{
+    background-image: url(../img/camsexvideos/bg.jpg);
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-color: #000000;
+}
+
+body .content .post-container .post-content{
+    box-shadow:0 0 1px #acacac inset;
+}
+
+.button, .footer a{
+    background: -webkit-linear-gradient(#8c35c9, #7a30ae); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#8c35c9, #7a30ae); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#8c35c9, #7a30ae); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#8c35c9, #7a30ae); /* Standard syntax */
+    box-shadow:0 1px 0 #ab32ff inset;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+
+    &:hover{
+        background: -webkit-linear-gradient(#7a30ae, #7a30ae); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#7a30ae, #7a30ae); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#7a30ae, #7a30ae); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#7a30ae, #7a30ae); /* Standard syntax */
+        box-shadow:0 1px 0 #5a2083 inset;
+    }
+}
+
+body .footer a.numberofpages, body .footer a.active{
+    background-image:none;
+    box-shadow: none;
+    color: #ffffff;
+}
+
+.header {
+    box-shadow: 0 0 15px #000000;
+
+    .search{
+        margin: -108px 20px 0 0;
+        height: 85px;
+    }
+}
+
+@font-face {
+    font-family: "black";
+    src: url("../font/Roboto-Black.ttf");
+}
+@font-face {
+    font-family: "bold";
+    src: url("../font/Roboto-Bold.ttf");
+}
+@font-face {
+    font-family: "medium";
+    src: url("../font/Roboto-Medium.ttf");
+}
+@font-face {
+    font-family: "regular";
+    src: url("../font/Roboto-Regular.ttf");
+}
+@font-face {
+    font-family: "thin";
+    src: url("../font/Roboto-Thin.ttf");
+}
+@font-face {
+    font-family: "light";
+    src: url("../font/Roboto-Light.ttf");
+}
+
+@import "../additions";
+@import "../custom";
+@import "../style";
+

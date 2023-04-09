@@ -1,0 +1,99 @@
+@import "../reset";
+
+$color0: #303030;
+$color1: #ffffff;
+$color1-hover: #48a1dd;
+$color2: #ffffff;
+$color3: #f2f2f2;
+$color4: #e4e4e4;
+$search-color: #303030;
+$search-color-hover: #303030;
+$search-text: #ffffff;
+$tablet: 1200px;
+$mobile: 800px;
+$logo-link: url(../img/camcaps/logo.png);
+$search-link: url(../img/camcaps/search.png);
+
+body .content .post-container .post-content{}
+
+.button, .footer a{
+    background: -webkit-linear-gradient(#464646, #000000); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#464646, #000000); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#464646, #000000); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#464646, #000000); /* Standard syntax */
+    box-shadow:0 1px 0 #677b88 inset;
+    border-radius: 10px;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+
+    &:hover{
+        background: -webkit-linear-gradient(#48a1dd, #328cc8); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#48a1dd, #328cc8); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#48a1dd, #328cc8); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#48a1dd, #328cc8); /* Standard syntax */
+        box-shadow:0 1px 0 #70bcef inset;
+    }
+}
+
+body .content .post-container .post-content, body .content .post-container .button.search-similar{margin-bottom: 5px;}
+
+body .dmca .dmca-text{text-shadow: none;}
+
+body .footer a.numberofpages, body .footer a.active{
+    background-image:none;
+    box-shadow: none;
+    color: #535353;
+}
+
+body .footer a input{
+    color: #ffffff;
+    border-radius: 10px;
+}
+
+.header {
+    box-shadow:0 1px 3px #e6e6e6;
+
+    .search{
+        margin: -115px 20px 0 0;
+        border-radius: 10px;
+        height: 100px;
+        box-shadow:0 1px 3px #b5b5b5 inset;
+    }
+}
+
+.footer a.active{
+    background-image: none;
+    box-shadow:none;
+    border-radius: 10px;
+}
+
+.post-content{border-radius: 10px;}
+
+@font-face {
+    font-family: "black";
+    src: url("../font/Roboto-Black.ttf");
+}
+@font-face {
+    font-family: "bold";
+    src: url("../font/Roboto-Bold.ttf");
+}
+@font-face {
+    font-family: "medium";
+    src: url("../font/Roboto-Medium.ttf");
+}
+@font-face {
+    font-family: "regular";
+    src: url("../font/Roboto-Regular.ttf");
+}
+@font-face {
+    font-family: "thin";
+    src: url("../font/Roboto-Thin.ttf");
+}
+@font-face {
+    font-family: "light";
+    src: url("../font/Roboto-Light.ttf");
+}
+
+@import "../additions";
+@import "../custom";
+@import "../style";

@@ -1,0 +1,45 @@
+@import "../reset";
+
+$color0: #ffffff;
+$color1: #e23737;
+$color1-hover: #ef4545;
+$color2: #b82b2b;
+$color3: #6e1616;
+$color4: #5a1111;
+$search-color: #b82b2b;
+$search-color-hover: #ac2424;
+$search-text: #e23737;
+$tablet: 1200px;
+$mobile: 800px;
+$logo-link: url(../img/camvideos/logo.png);
+$search-link: url(../img/camvideos/search.png);
+
+@font-face {
+    font-family: "black";
+    src: url("../font/Roboto-Black.ttf");
+}
+@font-face {
+    font-family: "bold";
+    src: url("../font/Roboto-Bold.ttf");
+}
+@font-face {
+    font-family: "medium";
+    src: url("../font/Roboto-Medium.ttf");
+}
+@font-face {
+    font-family: "regular";
+    src: url("../font/Roboto-Regular.ttf");
+}
+@font-face {
+    font-family: "thin";
+    src: url("../font/Roboto-Thin.ttf");
+}
+@font-face {
+    font-family: "light";
+    src: url("../font/Roboto-Light.ttf");
+}
+
+@import "../additions";
+@import "../custom";
+@import "../style";
+

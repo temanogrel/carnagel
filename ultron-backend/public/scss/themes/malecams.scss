@@ -1,0 +1,74 @@
+@import "../reset";
+
+$color0: #303030;
+$color1: #48a1dd;
+$color1-hover: #303030;
+$color2: #ffffff;
+$color3: #f4f4f4;
+$color4: #ffffff;
+$search-color: #308dcb;
+$search-color-hover: #308dcb;
+$search-text: #48a1dd;
+$tablet: 1200px;
+$mobile: 800px;
+$logo-link: url(../img/malecams/logo.png);
+$search-link: url(../img/malecams/search.png);
+
+.header .search{
+    margin: -115px 20px 0 0;
+    border-radius: 3px;
+    height: 100px;
+}
+
+body .backtotop{
+    color: #ffffff;
+    border-bottom: 1px solid #308dcb;
+}
+
+body .footer a input{border-radius: 3px;}
+
+body .backtotop{border-radius: 3px;}
+
+.button, .footer a{
+    background: -webkit-linear-gradient(#48a1dd, #3593d3); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#48a1dd, #3593d3); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#48a1dd, #3593d3); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#48a1dd, #3593d3); /* Standard syntax */
+    box-shadow:0 1px 0 #5aace3 inset;
+    border-radius: 3px;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+    border-bottom: none !important;
+
+    &:hover{
+        background: -webkit-linear-gradient(#58ade7, #459edb); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#58ade7, #459edb); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#58ade7, #459edb); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#58ade7, #459edb); /* Standard syntax */
+        box-shadow:0 1px 0 #66b6eb inset;
+    }
+}
+
+body .content .post-container .post-content, body .content .post-container .button.search-similar{margin-bottom: 5px;}
+
+body .dmca .dmca-text{text-shadow: none;}
+
+body .search{color: #ffffff;}
+
+body .footer a.numberofpages, body .footer a.active{
+    background-image:none;
+    box-shadow: none;
+    color: #535353;
+}
+
+.footer a.active{
+    background-image: none;
+    box-shadow:none;
+    border-radius: 3px;
+}
+
+.post-content{border-radius: 3px;}
+
+@import "../additions";
+@import "../custom";
+@import "../style";

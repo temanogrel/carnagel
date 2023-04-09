@@ -1,0 +1,38 @@
+@import "../reset";
+
+$color0: #ffffff;
+$color1: #ac81c0;
+$color1-hover: #976bac;
+$color2: #556b79;
+$color3: #39464f;
+$color4: #1b2227;
+$search-color: #85599a;
+$search-color-hover: #744989;
+$search-text: #ac81c0;
+$tablet: 1200px;
+$mobile: 800px;
+$logo-link: url(../img/teencamvideos/logo.png);
+$search-link: url(../img/teencamvideos/search.png);
+
+
+.button, .stats-container, .post-name, .post-date{
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.button, .header, .post-content{
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+body .footer a.active, body .footer a.active:hover{
+    background-color: $color2 !important;
+    color: #738c9b;
+}
+
+.footer a{
+    border-radius: 2px;
+}
+
+@import "../additions";
+@import "../custom";
+@import "../style";
+

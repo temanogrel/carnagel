@@ -1,0 +1,73 @@
+{
+  "recording": {
+    "orphaned": 0,
+    "audio": null,
+    "storagePath": "/opt/transcoded/chaturbate_2016-03-08/sweeterbeauty_female_1508.mp4",
+    "stageName": "sweeterbeauty",
+    "duration": 567,
+    "description": "Size: 31316530 bytes (29.87 MB), duration: 00:09:27, avg.bitrate: 431 kb/s\nAudio: aac, 16000 Hz, mono\nVideo: h264, unknown, 320x240, 30 fps",
+    "service": "cbc",
+    "videoUrl": "http://pip.bz/hrm-UuDK",
+    "id": 17082280,
+    "updatedAt": "2016-03-08T16:18:56+0100",
+    "size": 31316530,
+    "section": "female",
+    "E": null,
+    "video": null,
+    "encoding": "h264",
+    "bitRate": null,
+    "storagePathThumb": "/opt/transcoded/chaturbate_2016-03-08/sweeterbeauty_female_1508_s.jpg",
+    "storageServer": "bs20.sla.bz",
+    "lastCheckedAt": "2016-03-08T15:18:43+0100",
+    "state": "publishing",
+    "imageUrls": {
+      "thumb": "http://1.camgirl.gallery/images/2016/03/08/sweeterbeauty_080316_1618_female_Chaturbate_s.th.jpg",
+      "gallery": "http://camgirl.gallery/image/9DfN",
+      "large": "http://1.camgirl.gallery/images/2016/03/08/sweeterbeauty_080316_1618_female_Chaturbate_s.jpg"
+    },
+    "publishedOn": [
+      {
+        "postId": 9567370,
+        "site": 1,
+        "id": 48061898
+      },
+      {
+        "postId": 4289266,
+        "site": 2,
+        "id": 48061899
+      },
+      {
+        "postId": 9500807,
+        "site": 4,
+        "id": 48061900
+      },
+      {
+        "postId": 8493618,
+        "site": 8,
+        "id": 48061901
+      }
+    ],
+    "createdAt": "2016-03-08T16:18:08+0100",
+    "performerId": 967828,
+    "type": "associated"
+  },
+  "performer": {
+    "isRecording": false,
+    "peakViewerCount": 0,
+    "blacklisted": false,
+    "stageName": "sweeterbeauty",
+    "recordingCount": 0,
+    "isPendingRecording": false,
+    "serviceId": "sweeterbeauty",
+    "currentViewers": 24,
+    "service": "cbc",
+    "online": false,
+    "id": 967828,
+    "updatedAt": "2016-03-08T16:18:37+0100",
+    "section": "female",
+    "createdAt": "2015-09-23T14:11:43+0200",
+    "aliases": [
+      "sweeterbeauty"
+    ]
+  }
+}

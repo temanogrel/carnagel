@@ -1,0 +1,36 @@
+{% if recordings.count() > 1 %}
+    <nav class="footer container">
+
+        <div class="grid-1 tablet-grid-1">
+            {% if recordings.getPages().current == recordings.getPages().first %}
+                <a>&lt;</a>
+            {% else %}
+                <a href="?page={{ recordings.getPages().previous }}">&lt;</a>
+            {% endif %}
+        </div>
+
+        {% for page in recordings.getPages().pagesInRange %}
+
+            <div class="grid-1 tablet-grid-2">
+                {% if recordings.getPages().current == page %}
+                    <a href="?page={{ page }}" class="active">{{ page }}</a>
+                {% else %}
+                    <a href="?page={{ page }}">{{ page }}</a>
+                {% endif %}
+            </div>
+
+        {% endfor %}
+
+        <div class="grid-1 tablet-grid-1">
+            {% if recordings.getPages().current == recordings.getPages().last %}
+                <a>&gt;</a>
+            {% else %}
+                <a href="?page={{ recordings.getPages().next }}">&gt;</a>
+            {% endif %}
+        </div>
+
+        <div class="grid-2 tablet-grid-4"><a class="numberofpages">..{{ recordings.count() }}</a></div>
+        <div class="grid-2 tablet-grid-4"><a><input id="page_input" type="number" placeholder="Page nr."></a></div>
+        <div class="grid-1 tablet-grid-4"><a id="goto_page_button">Go</a></div>
+    </nav>
+{% endif %}

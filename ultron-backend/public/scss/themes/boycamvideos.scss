@@ -1,0 +1,97 @@
+@import "../reset";
+
+$color0: #ffffff;
+$color1:rgba(0, 0, 0, 0.6);
+$color1-hover: rgba(91, 185, 248, 0.9);
+$color2: rgba(0, 0, 0, 0.3);
+$color3: #39464f;
+$color4: #1b2227;
+$search-color: rgba(0, 0, 0, 0.3);
+$search-color-hover: rgba(0, 0, 0, 0.6);
+$search-text: #594a4f;
+$tablet: 1200px;
+$mobile: 800px;
+$logo-link: url(../img/boycamvideos/logo.png);
+$search-link: url(../img/boycamvideos/search.png);
+
+html body{
+    background-image: url(../img/boycamvideos/bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #54b4e6;
+}
+
+.content .post-container.large-view .button{
+    border-radius: 0 0 0 0;
+}
+
+.content .post-container.large-view .button.search-similar{
+    border-radius: 0 0 0 5px;
+}
+
+.content .post-container.large-view .button.dmca{
+    border-radius: 0 0 5px 0;
+}
+
+.post-content{
+    border-radius: 5px 5px 0 0;
+}
+
+.post-content img{
+    border-radius: 5px;
+}
+
+body .content .post-container {
+    .button-container, .button{
+        height: 100px;
+        overflow: hidden;
+        border-radius: 0 0 5px 5px;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
+
+        &.search-similar{border-radius:0;}
+    }
+    .button-container .button{border-radius: 0;}
+}
+
+body .search{
+    height:100px;
+    margin: -119px 20px 0 0;
+    border-radius: 5px;
+}
+
+.button, .stats-container, .post-name, .post-date, .error{
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button, .header, .post-content{
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+body .footer a.active, body .footer a.active:hover{
+    background-color: $color2 !important;
+    color: #738c9b;
+}
+
+body .content .post-container.large-view .button{
+    border: none;
+}
+
+.footer a{
+    border-radius: 2px;
+}
+
+@media only screen and (max-width: $mobile) {
+    body .search{
+        margin: 0 5% 5% 5%;
+        width: 80%;
+
+        .content .post-container.large-view .button{
+            border-radius: 0;
+        }
+    }
+}
+
+@import "../additions";
+@import "../custom";
+@import "../style";
+

@@ -1,0 +1,49 @@
+@import "../reset";
+
+$color0: #3d3d3d;
+$color1: #ffffff;
+$color1-hover: #ffffff;
+$color2: #dddddd;
+$color3: #f4f4f4;
+$color4: #f2f2f2;
+$search-color: #e8e8e8;
+$search-color-hover: #e8e8e8;
+$search-text: #ffffff;
+$tablet: 1200px;
+$mobile: 800px;
+$logo-link: url(../img/nakedcams/logo.png);
+$search-link: url(../img/nakedcams/search.png);
+
+.button, .footer a{
+    background: -webkit-linear-gradient(#ff7800, #ef7102); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#ff7800, #ef7102); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ff7800, #ef7102); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#ff7800, #ef7102); /* Standard syntax */
+    color: #ffffff;
+
+    &:hover{
+        background: -webkit-linear-gradient(#ff5a00, #ef5602); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#ff5a00, #ef5602); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#ff5a00, #ef5602); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#ff5a00, #ef5602); /* Standard syntax */
+    }
+}
+
+body .footer a.active, body .footer a.active:hover{
+    background-color: transparent !important;
+	background-image:none;
+    color: #738c9b;
+}
+
+body .footer a input{
+    background-color: #e8e8e8;
+}
+
+body .dmca form input[type=submit]:hover{
+    background-color: #ff5a00;
+}
+
+@import "../additions";
+@import "../custom";
+@import "../style";
+
