@@ -1,0 +1,87 @@
+# my global config
+global:
+  scrape_interval:     2s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  #evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  #external_labels:
+  #    monitor: 'codelab-monitor'
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first.rules"
+  # - "second.rules"
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+      - targets: ['util.sla.bz:9100']
+
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets:
+        - bs1.sla.bz:9100
+        - bs2.sla.bz:9100
+        - bs3.sla.bz:9100
+        - bs4.sla.bz:9100
+        - bs5.sla.bz:9100
+        - bs6.sla.bz:9100
+        - bs7.sla.bz:9100
+        - bs8.sla.bz:9100
+        - bs9.sla.bz:9100
+        - bs10.sla.bz:9100
+        - bs11.sla.bz:9100
+        - bs12.sla.bz:9100
+        - bs13.sla.bz:9100
+        - bs14.sla.bz:9100
+        - bs15.sla.bz:9100
+        - bs16.sla.bz:9100
+        - bs17.sla.bz:9100
+        - bs18.sla.bz:9100
+        - bs19.sla.bz:9100
+        - bs20.sla.bz:9100
+        - bs21.sla.bz:9100
+        - bs22.sla.bz:9100
+        - bs23.sla.bz:9100
+        - bs24.sla.bz:9100
+        - bs25.sla.bz:9100
+        - bs26.sla.bz:9100
+        - bs27.sla.bz:9100
+        - bs28.sla.bz:9100
+        - bs29.sla.bz:9100
+        - bs30.sla.bz:9100
+        - bs31.sla.bz:9100
+        - bs32.sla.bz:9100
+        - bs33.sla.bz:9100
+        - bs34.sla.bz:9100
+        - bs35.sla.bz:9100
+        - bs36.sla.bz:9100
+        - bs37.sla.bz:9100
+        - bs38.sla.bz:9100
+        - bs39.sla.bz:9100
+        - bs40.sla.bz:9100
+        - bs41.sla.bz:9100
+        - bs42.sla.bz:9100
+        - bs43.sla.bz:9100
+        - bs44.sla.bz:9100
+        - bs45.sla.bz:9100
+        - bs46.sla.bz:9100
+        - bs47.sla.bz:9100
+        - bs48.sla.bz:9100
+        - bs49.sla.bz:9100
+        - bs50.sla.bz:9100
+        - bs51.sla.bz:9100
+        - bs52.sla.bz:9100
+        - bs53.sla.bz:9100
+        - bs54.sla.bz:9100
+        - bs55.sla.bz:9100
+        - bs56.sla.bz:9100
+        - bs57.sla.bz:9100
+        - bs58.sla.bz:9100
+        - bs59.sla.bz:9100
+        - bs60.sla.bz:9100
+

@@ -1,0 +1,14 @@
+{
+  "require": {
+    "silex/silex": "~1.2",
+    "knplabs/console-service-provider": "1.0",
+    "guzzlehttp/guzzle": "~6.0.0",
+    "doctrine/orm": "~2.5.0",
+    "sensiolabs/consul-php-sdk": "^2.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Hermes\\": "src/"
+    }
+  }
+}

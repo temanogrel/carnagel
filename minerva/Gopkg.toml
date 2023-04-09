@@ -1,0 +1,65 @@
+# Gopkg.toml example
+#
+# Refer to https://github.com/golang/dep/blob/master/docs/Gopkg.toml.md
+# for detailed Gopkg.toml documentation.
+#
+# required = ["github.com/user/thing/cmd/thing"]
+# ignored = ["github.com/user/project/pkgX", "bitbucket.org/user/project/pkgA/pkgY"]
+#
+# [[constraint]]
+#   name = "github.com/user/project"
+#   version = "1.0.0"
+#
+# [[constraint]]
+#   name = "github.com/user/project2"
+#   branch = "dev"
+#   source = "github.com/myfork/project2"
+#
+# [[override]]
+#   name = "github.com/x/y"
+#   version = "2.4.0"
+#
+# [prune]
+#   non-go = false
+#   go-tests = true
+#   unused-packages = true
+
+
+[[constraint]]
+  name = "git.misc.vee.bz/carnagel/go-ecosystem"
+  source = "git@git.misc.vee.bz:carnagel/go-ecosystem.git"
+  version = "0.2.6"
+
+[[constraint]]
+  name = "golang.org/x/net"
+  branch = "master"
+
+[[constraint]]
+  name = "google.golang.org/grpc"
+  version = "^1.3.0"
+
+[[constraint]]
+  name = "github.com/prometheus/common"
+  branch = "master"
+
+[[constraint]]
+  name = "git.misc.vee.bz/carnagel/minerva-bindings"
+  version = "^0.1.3"
+  source = "git@git.misc.vee.bz:carnagel/minerva-bindings.git"
+
+[[constraint]]
+  name = "git.misc.vee.bz/carnagel/sql-migrations"
+  version = "^0.0.2"
+  source = "git@git.misc.vee.bz:carnagel/sql-migrations.git"
+
+[[constraint]]
+  name = "github.com/go-pg/pg"
+  revision = "62ce1a18dd39eab82c8a3fc1a5b076e59c0a284f"
+
+[[constraint]]
+  name = "github.com/prometheus/client_golang"
+  version = "0.8.0"
+
+[prune]
+  go-tests = true
+  unused-packages = true

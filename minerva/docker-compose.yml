@@ -1,0 +1,85 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_USER: 'minerva'
+      POSTGRES_PASSWORD: 'minerva'
+      POSTGRES_DATABASE: 'minerva'
+      SERVICE_5432_NAME: 'postgres'
+
+    ports:
+      - 5432:5432
+
+    command: postgres -c log_statement=all -c logging_collector=on -c log_destination=stderr
+
+    depends_on:
+      - registrator
+      - consul
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+
+    environment:
+      SERVICE_6379_NAME: 'redis'
+
+  prometheus:
+    image: prom/prometheus:v1.5.0
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+    ports:
+      - 9090:9090
+
+    depends_on:
+      - registrator
+      - consul
+
+    environment:
+      SERVICE_9090_NAME: 'prometheus'
+
+  elasticsearch:
+    image: elasticsearch:5.2
+    ports:
+      - 9200:9200
+
+    depends_on:
+      - registrator
+      - consul
+
+    environment:
+      SERVICE_9200_NAME: 'elasticsearch'
+
+  rabbitmq:
+    image: rabbitmq:latest
+    ports:
+       - 5672:5672
+
+    depends_on:
+      - registrator
+      - consul
+
+    environment:
+      RABBITMQ_DEFAULT_USER: 'minerva'
+      RABBITMQ_DEFAULT_PASS: 'minerva'
+      RABBITMQ_DEFAULT_VHOST: 'minerva'
+      SERVICE_5672_NAME: 'rabbitmq'
+
+  consul:
+    image: consul:latest
+    ports:
+      - 8500:8500
+    environment:
+      SERVICE_8500_NAME: 'consul'
+
+  registrator:
+    image: gliderlabs/registrator:latest
+    network_mode: host
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+
+    command: consul://localhost:8500
+    depends_on:
+      - consul
