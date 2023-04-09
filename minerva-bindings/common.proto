@@ -1,0 +1,48 @@
+syntax = "proto3";
+package pb;
+
+import "struct.proto";
+
+enum StatusCode {
+    Ok = 0;
+    InvalidUuid = 1;
+    FileNotFound = 2;
+    FileAlreadyExists = 3;
+    AlreadyPendingUpload = 5;
+    AlreadyPendingDeletion = 4;
+
+    InternalServerErr = 500;
+    NoServerAvailable = 520;
+}
+
+enum FileType {
+    All = 0;
+    Recording_mp4 = 1;
+    Recording_hls = 6;
+    Wordpress_collage = 2;
+    Infinity_collage = 3;
+    Infinity_sprite = 4;
+    Infinity_image = 5;
+}
+
+message FileData {
+    string uuid = 1;
+    uint64 externalId = 2;
+    FileType type = 3;
+
+    string hostname = 4;
+    string path = 5;
+
+    string upstoreHash = 6;
+    string originalFilename = 7;
+    string checksum = 14;
+
+    bool pendingUpload = 8;
+    bool pendingDeletion = 9;
+
+    uint64 size = 10;
+    Struct meta = 11;
+
+    string createdAt = 12;
+    string updatedAt = 13;
+}

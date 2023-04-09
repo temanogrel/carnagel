@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+import "common.proto";
+
+package pb;
+
+service MinionDelegation {
+    rpc DeletionRequests(ServerIdentifier) returns (stream DeletionRequest);
+    rpc UploadRequests(ServerIdentifier) returns (stream ReUploadRequest);
+    rpc RelocateRequests(ServerIdentifier) returns (stream RelocateRequest);
+
+    rpc SetUpstoreHash(SetUpstoreHashRequest) returns (SetUpstoreHashResponse);
+    rpc FileDeleted(FileIdentifier) returns (FileDeletedResponse);
+}
+
+message SetUpstoreHashRequest {
+   string uuid = 1;
+   string hash = 2;
+}
+
+message SetUpstoreHashResponse {
+    StatusCode status = 1;
+}
+
+message FileIdentifier {
+    string uuid = 1;
+}
+
+message FileDeletedResponse {
+    StatusCode status = 1;
+}
+
+message ServerIdentifier {
+    string hostname = 1;
+}
+
+message DeletionRequest {
+    string uuid = 1;
+    string path = 2;
+}
+
+message ReUploadRequest {
+    string uuid = 1;
+    FileType type = 2;
+    string path = 3;
+    string name = 4;
+    uint64 externalId = 5;
+}
+
+message RelocateRequest {
+    string uuid = 1;
+    string targetHost = 2;
+}

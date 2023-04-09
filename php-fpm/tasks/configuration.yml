@@ -1,0 +1,69 @@
+- name: Check that the opcache.ini exists
+  stat:
+    path: "/etc/php/{{ php_version }}/mods-available/opcache.ini"
+  register: opcache_result
+
+- name: Disable opcache
+  lineinfile:
+    dest: "/etc/php/{{ php_version }}/mods-available/opcache.ini"
+    line: "opcache.enable = 0;"
+    state: present
+    regexp: "^opcache.enable = 0;"
+  when: (opcache_result.stat.exists and php_disable_opcache)
+  notify:
+    - restart php-fpm
+
+- name: Set the error reporting level
+  lineinfile:
+    dest: "/etc/php/{{ php_version }}/fpm/php.ini"
+    line: "error_reporting = {{ php_error_reporting }}"
+    regexp: "^error_reporting = (.*)"
+
+- name: Enable display errors
+  lineinfile:
+    dest: "/etc/php/{{ php_version }}/fpm/php.ini"
+    line: "display_errors = On"
+    regexp: "^display_errors = (.*)"
+  when: php_display_errors
+  notify:
+   - restart php-fpm
+
+- name: Disable display errors
+  lineinfile:
+    dest: "/etc/php/{{ php_version }}/fpm/php.ini"
+    regexp: "^display_errors = (.*)$"
+    line: "display_errors = off"
+  when: not php_display_errors
+  notify:
+   - restart php-fpm
+
+- name: Check if we have a local pool configuration
+  local_action: "stat path=templates/{{ php_custom_pool_conf}}"
+  register: custom_fpm_pool
+  become: no
+
+- name: Replace default fpm pool with custom
+  template:
+    src: "{{ php_custom_pool_conf }}"
+    dest: "/etc/php/{{ php_version }}/fpm/pool.d/www.conf"
+  when: custom_fpm_pool.stat.exists
+  notify:
+   - restart php-fpm
+
+- name: Install xdebug configuration
+  template:
+    src: "xdebug.conf"
+    dest: "/etc/php/{{ php_version }}/{{ item }}/conf.d/00-xdebug.ini"
+  with_items:
+    - fpm
+    - cli
+  when: xdebug_enabled
+
+- name: Uninstall xdebug configuration
+  file:
+    dest: "/etc/php/{{ php_version }}/{{ item }}}/conf.d/00-xdebug.ini"
+    state: "absent"
+  with_items:
+    - fpm
+    - cli
+  when: not xdebug_enabled

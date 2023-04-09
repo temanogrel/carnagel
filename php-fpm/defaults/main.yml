@@ -1,0 +1,32 @@
+newrelic_php_enabled: 0
+
+php_repo: "ppa:ondrej/php"
+php_version: "7.1"
+
+php_packages:
+  - php{{ php_version }}-cli
+  - php{{ php_version }}-common
+  - php{{ php_version }}-dev
+  - php{{ php_version }}-curl
+  - php{{ php_version }}-fpm
+  - php{{ php_version }}-intl
+  - php{{ php_version }}-json
+  - php{{ php_version }}-xml
+  - php{{ php_version }}-mbstring
+  - php{{ php_version }}-zip
+  - php{{ php_version }}-opcache
+  - php{{ php_version }}-mysql
+  - php{{ php_version }}-pgsql
+  - php-redis
+
+# Custom configuration
+php_display_errors: false
+php_error_reporting: E_ALL
+php_disable_opcache: false
+
+# Use this if you want a custom php pool
+php_custom_pool_conf: "php/fpm.pool.conf"
+php_timezone: "Europe/Stockholm"
+php_extended_packages: []
+
+xdebug_enabled: false

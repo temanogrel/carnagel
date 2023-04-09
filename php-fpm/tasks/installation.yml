@@ -1,0 +1,42 @@
+- name: If repo does not contain wanted version, add a ppa for php
+  apt_repository:
+    repo: "{{ item }}"
+
+  when: php_repo is defined
+  with_items:
+    - "{{ php_repo }}"
+
+- name: update package lists
+  apt:
+    update_cache: yes
+
+- name: Install core php packages
+  apt:
+    pkg: "{{ item }}"
+    state: "latest"
+
+  with_items: "{{ php_packages }}"
+  notify:
+    - restart php-fpm
+
+- name: Install extended php packages
+  apt:
+    pkg: "{{ item }}"
+    state: "latest"
+    
+  with_items: "{{ php_extended_packages }}"
+  notify:
+    - restart php-fpm
+
+- name: Install xdebug
+  apt:
+    pkg: "php-xdebug"
+    state: "latest"
+  when: xdebug_enabled
+
+- name: Install xdebug
+  apt:
+    pkg: "php-xdebug"
+    state: "absent"
+  when: not xdebug_enabled
+

@@ -1,0 +1,9 @@
+- include: installation.yml
+- include: configuration.yml
+- include: composer.yml
+- include: newrelic.yml
+  when: newrelic_php_enabled == 1
+  tags:
+    - newrelic
+    - newrelic-php
+

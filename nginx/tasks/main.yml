@@ -1,0 +1,13 @@
+- name: Add ubuntu ppa for stable
+  apt_repository: repo="ppa:nginx/stable" state=present update_cache=yes
+
+- name: Install nginx
+  apt: pkg="{{ nginx_package }}" state=latest
+
+- name: Remove the default virtual host
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify:
+    - restart nginx
+
+- name: Ensure nginx is running
+  service: name=nginx state=started

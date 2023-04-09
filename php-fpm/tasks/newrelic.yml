@@ -1,0 +1,49 @@
+- name: Install newrelic repo key
+  apt_key:
+    url: https://download.newrelic.com/548C16BF.gpg
+    state: present
+
+- name: Install newrelic debian repo
+  apt_repository:
+    repo: 'deb http://apt.newrelic.com/debian/ newrelic non-free'
+    state: present
+
+- name: Install newrelic-php5
+  apt:
+    pkg: newrelic-php5
+    state: latest
+
+- name: Run the installation
+  environment:
+    NR_INSTALL_SILENT: 1
+    NR_INSTALL_KEY: "{{ newrelic_license_key }}"
+
+  command: "newrelic-install install"
+
+- name: Configure the license key
+  lineinfile:
+    dest: "/etc/php/{{ php_version }}/mods-available/newrelic.ini"
+    regexp: "^newrelic.license(.*)$"
+    line: "newrelic.license :  \"{{newrelic_license_key}}\""
+  tags:
+    - newrelic-configs
+  notify:
+    - restart php-fpm
+
+- name: Configure the project name
+  lineinfile:
+    dest: "/etc/php/{{ php_version }}/mods-available/newrelic.ini"
+    regexp: "^newrelic.appname(.*)$"
+    line: "newrelic.appname :  \"{{newrelic_project_name}}\""
+  tags:
+    - newrelic-configs
+  notify:
+    - restart php-fpm
+
+- name: Double configuration for some reason
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/etc/php/{{ php_version }}/fpm/conf.d/newrelic.ini"
+    - "/etc/php/{{ php_version }}/cli/conf.d/newrelic.ini"
