@@ -1,0 +1,34 @@
+#!/usr/bin/python3
+from cement.core import handler
+from cement.core.controller import CementBaseController
+from cement.core.foundation import CementApp
+from central.celery import app as celery
+from central.controllers.api import ApiController
+from central.controllers.downloading import DownloadingController
+from central.controllers.recording import RecordingController
+
+
+class CentralBaseController(CementBaseController):
+    class Meta:
+        label = 'base'
+        description = 'Utilities for controlling the central system'
+
+
+# define the application class
+class CentralApplication(CementApp):
+    class Meta:
+        label = 'central'
+        base_controller = CentralBaseController
+
+
+if __name__ == '__main__':
+    with CentralApplication() as app:
+        # Register the controllers
+        handler.register(DownloadingController)
+        handler.register(ApiController)
+        handler.register(RecordingController)
+
+        app.run()
+
+        # Cleanly close the connection to rabbitmq
+        celery.close()

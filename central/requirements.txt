@@ -1,0 +1,12 @@
+-e git+ssh://git@git.misc.vee.bz/carnagel/common.git@4.1.0#egg=common
+
+celery==3.1.23
+requests==2.8.1
+lxml==3.4.1
+tornado==4.0.2
+websocket-client==0.23.0
+pyrabbit==1.1.0
+cement==2.6
+paramiko==1.15.2
+iso8601==0.1.10
+nose==1.3.7
