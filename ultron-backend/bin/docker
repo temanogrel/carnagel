@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+if [ "$1" == "down" ]; then
+    COMPOSE_PROJECT_NAME=ultron docker-compose -f docker-compose.yml down
+
+elif [ "$1" == "restart" ]; then
+
+    COMPOSE_PROJECT_NAME=ultron docker-compose -f docker-compose.yml stop
+    COMPOSE_PROJECT_NAME=ultron docker-compose -f docker-compose.yml up -d
+
+else
+    COMPOSE_PROJECT_NAME=ultron docker-compose -f docker-compose.yml up -d
+fi;

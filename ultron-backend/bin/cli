@@ -1,0 +1,3 @@
+#!/bin/sh
+
+COMPOSE_PROJECT_NAME=ultron docker-compose -f docker-compose.yml run php php console.php $@
