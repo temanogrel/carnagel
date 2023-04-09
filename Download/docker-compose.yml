@@ -1,0 +1,27 @@
+version: '2'
+services:
+  download:
+    build: .
+    command: >
+      /usr/local/bin/celery worker
+          -A download
+          -Q downloading
+          -l info
+          --hostname=download
+          --concurrency=5
+    links:
+      - rabbitmq
+
+    depends_on:
+      - rabbitmq
+
+    environment:
+      RABBIT_HOST: "rabbitmq"
+      RABBIT_PSWD: "rtmp"
+
+  rabbitmq:
+    image: rabbitmq:latest
+    environment:
+      RABBITMQ_DEFAULT_USER: "rtmp"
+      RABBITMQ_DEFAULT_PASS: "rtmp"
+      RABBITMQ_DEFAULT_VHOST: "rtmp"

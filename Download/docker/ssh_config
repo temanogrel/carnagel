@@ -1,0 +1,10 @@
+Host git.misc.vee.bz
+    IdentityFile ~/.ssh/deploy_rsa
+    StrictHostKeyChecking=no
+    UserKnownHostsFile=/dev/null
+
+Host *.sla.bz
+    User gunicorn
+    IdentityFile ~/.ssh/gunicorn_rsa
+    StrictHostKeyChecking=no
+    UserKnownHostsFile=/dev/null

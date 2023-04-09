@@ -1,0 +1,276 @@
+package pipeline
+
+import (
+	"context"
+	"git.misc.vee.bz/carnagel/encoder/pkg"
+	"git.misc.vee.bz/carnagel/encoder/pkg/ffmpeg"
+	"git.misc.vee.bz/carnagel/go-ecosystem/domain"
+	"git.misc.vee.bz/carnagel/go-ecosystem/mocks"
+	"github.com/satori/go.uuid"
+	"github.com/sirupsen/logrus"
+	"github.com/stretchr/testify/assert"
+	"gopkg.in/stretchr/testify.v1/mock"
+	"io"
+	"os"
+	"path/filepath"
+	"testing"
+)
+
+func TestNewRecordingPipeline(t *testing.T) {
+
+	flvUuid := uuid.NewV4()
+	hlsUuid := uuid.NewV4()
+
+	rec := &ecosystem.Recording{
+		Id:           1,
+		VideoMp4Uuid: flvUuid,
+	}
+
+	ctx := context.Background()
+
+	// since we cleanup the files after
+	copy("testdata/video.flv", "testdata/deletable.flv")
+
+	minervaClient := &mocks.MinervaClient{}
+	minervaClient.
+		On("Download", flvUuid).
+		Return("testdata/deletable.flv", nil)
+
+	minervaClient.
+		On("Upload", mock.Anything, mock.Anything, mock.Anything, mock.Anything).
+		Return(hlsUuid, nil)
+
+	minervaClient.
+		On("RequestDeletion", flvUuid).
+		Return(nil)
+
+	upstoreClient := &mocks.UpstoreClient{}
+	upstoreClient.
+		On("Upload", rec.GetPublishedFilename("mp4"), mock.Anything).
+		Return("UpstoreHash", nil)
+
+	aphroditeClient := &mocks.AphroditeClient{}
+	aphroditeClient.
+		On("UpdateRecording", rec).
+		Return(nil)
+
+	logger := logrus.New()
+
+	config := &encoder.EncoderConfig{
+		Crf:           "18",
+		Tune:          "film",
+		Threads:       "8",
+		Preset:        "veryfast",
+		FontFile:      "../../files/DroidSansMono.ttf",
+		WatermarkFile: "../../files/watermark.png",
+	}
+
+	app := &encoder.Application{
+		Logger:          logger,
+		UpstoreClient:   upstoreClient,
+		MinervaClient:   minervaClient,
+		AphroditeClient: aphroditeClient,
+		EncoderService:  ffmpeg.NewEncoderService(config, logger),
+	}
+
+	app.Pipelines = NewComposedPipelines(app)
+
+	err := app.Pipelines.NewRecordingPipeline(ctx, rec)
+
+	assert.Nil(t, err)
+	assert.Equal(t, uuid.Nil, rec.VideoMp4Uuid)
+	assert.Equal(t, hlsUuid, rec.VideoHlsUuid)
+	assert.Equal(t, "UpstoreHash", rec.UpstoreHash)
+}
+
+func TestConvertMp42HlsPipeline(t *testing.T) {
+
+	mp4UUid := uuid.NewV4()
+	hlsUuid := uuid.NewV4()
+
+	rec := &ecosystem.Recording{
+		Id:           1,
+		VideoMp4Uuid: mp4UUid,
+	}
+
+	ctx := context.Background()
+
+	// since we cleanup the files after
+	copy("testdata/video.mp4", "testdata/deletable.mp4")
+
+	minervaClient := &mocks.MinervaClient{}
+	minervaClient.
+		On("Download", mp4UUid).
+		Return("testdata/deletable.mp4", nil)
+
+	minervaClient.
+		On("Upload", mock.Anything, mock.Anything, mock.Anything, mock.Anything).
+		Return(hlsUuid, nil)
+
+	minervaClient.
+		On("RequestDeletion", mp4UUid).
+		Return(nil)
+
+	types := []ecosystem.FileType{
+		ecosystem.FileTypeInfinityCollage,
+		ecosystem.FileTypeInfinityImage,
+		ecosystem.FileTypeInfinitySprite,
+		ecosystem.FileTypeWordpressCollage,
+	}
+
+	for _, t := range types {
+		minervaClient.
+			On("RequestDeletionByType", ecosystem.ExternalId(rec.Id), t).
+			Return(nil)
+	}
+
+	upstoreClient := &mocks.UpstoreClient{}
+	upstoreClient.
+		On("Upload", rec.GetPublishedFilename("mp4"), mock.Anything).
+		Return("UpstoreHash", nil)
+
+	aphroditeClient := &mocks.AphroditeClient{}
+	aphroditeClient.
+		On("UpdateRecording", rec).
+		Return(nil)
+
+	logger := logrus.New()
+
+	config := &encoder.EncoderConfig{
+		Crf:           "18",
+		Tune:          "film",
+		Threads:       "8",
+		Preset:        "veryfast",
+		FontFile:      "../../files/DroidSansMono.ttf",
+		WatermarkFile: "../../files/watermark.png",
+	}
+
+	app := &encoder.Application{
+		Logger:          logger,
+		UpstoreClient:   upstoreClient,
+		MinervaClient:   minervaClient,
+		AphroditeClient: aphroditeClient,
+		EncoderService:  ffmpeg.NewEncoderService(config, logger),
+	}
+	app.Pipelines = NewComposedPipelines(app)
+
+	err := app.Pipelines.ConvertMp42Hls(ctx, rec)
+
+	assert.Nil(t, err)
+	assert.Equal(t, uuid.Nil, rec.VideoMp4Uuid)
+	assert.Equal(t, hlsUuid, rec.VideoHlsUuid)
+	assert.Equal(t, "UpstoreHash", rec.UpstoreHash)
+}
+
+func TestReplaceCorruptImages(t *testing.T) {
+
+	hlsUuid := uuid.NewV4()
+
+	rec := &ecosystem.Recording{
+		Id:           1,
+		VideoHlsUuid: hlsUuid,
+		VideoManifest: `` +
+			`#EXTM3U
+			#EXT-X-VERSION:4
+			#EXT-X-PLAYLIST-TYPE:VOD
+			#EXT-X-INDEPENDENT-SEGMENTS
+			#EXT-X-TARGETDURATION:8
+			#EXT-X-MEDIA-SEQUENCE:0
+			#EXTINF:8.280000,
+			#EXT-X-BYTERANGE:1418084@0
+			stream.ts
+			#EXTINF:8.560000,
+			#EXT-X-BYTERANGE:1881692@1418084
+			stream.ts
+			#EXTINF:0.080000,
+			#EXT-X-BYTERANGE:9212@3299776
+			stream.ts
+			#EXT-X-ENDLIST`,
+	}
+
+	path, err := os.Getwd()
+	assert.Nil(t, err)
+
+	ctx := context.Background()
+
+	// since we cleanup the files after
+	copy("testdata/video.ts", "testdata/deletable.ts")
+
+	minervaClient := &mocks.MinervaClient{}
+	minervaClient.
+		On("Download", hlsUuid).
+		Return(filepath.Join(path, "testdata/deletable.ts"), nil)
+
+	minervaClient.
+		On("Upload", mock.Anything, mock.Anything, mock.Anything, mock.Anything).
+		Return(hlsUuid, nil)
+
+	types := []ecosystem.FileType{
+		ecosystem.FileTypeInfinityCollage,
+		ecosystem.FileTypeInfinityImage,
+		ecosystem.FileTypeInfinitySprite,
+		ecosystem.FileTypeWordpressCollage,
+	}
+
+	for _, t := range types {
+		minervaClient.
+			On("RequestDeletionByType", ecosystem.ExternalId(rec.Id), t).
+			Return(nil)
+	}
+
+	aphroditeClient := &mocks.AphroditeClient{}
+	aphroditeClient.
+		On("UpdateRecording", rec).
+		Return(nil)
+
+	logger := logrus.New()
+
+	config := &encoder.EncoderConfig{
+		Crf:           "18",
+		Tune:          "film",
+		Threads:       "8",
+		Preset:        "veryfast",
+		FontFile:      "../../files/DroidSansMono.ttf",
+		WatermarkFile: "../../files/watermark.png",
+	}
+
+	app := &encoder.Application{
+		Logger:          logger,
+		MinervaClient:   minervaClient,
+		AphroditeClient: aphroditeClient,
+		EncoderService:  ffmpeg.NewEncoderService(config, logger),
+	}
+
+	err = app.Pipelines.ReplaceCorruptImages(ctx, rec)
+
+	assert.Nil(t, err)
+	assert.Equal(t, uuid.Nil, rec.VideoMp4Uuid)
+	assert.Equal(t, hlsUuid, rec.VideoHlsUuid)
+}
+
+func copy(src, dst string) error {
+	if _, err := os.Stat(dst); os.IsExist(err) {
+		return nil
+	}
+
+	in, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+
+	defer in.Close()
+
+	out, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+
+	defer out.Close()
+
+	_, err = io.Copy(out, in)
+	if err != nil {
+		return err
+	}
+
+	return out.Close()
+}

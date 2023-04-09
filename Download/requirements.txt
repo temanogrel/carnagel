@@ -1,0 +1,10 @@
+git+ssh://git@git.misc.vee.bz/carnagel/common.git@4.1.0#egg=common
+git+ssh://git@git.misc.vee.bz/carnagel/minerva-bindings.git@0.0.5#egg=minerva
+
+cffi
+kombu==4.1.0
+celery==4.1.0
+requests==2.8.1
+PyExecJS==1.1.0
+python-librtmp==0.2.2
+python-consul==1.1.0
