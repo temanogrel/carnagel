@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" sodipodi:docname="bitcoin-logo-noshadow.svg" inkscape:version="0.48.2 r9819"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px" height="605.5px"
+	 viewBox="0 0 512 605.5" enable-background="new 0 0 512 605.5" xml:space="preserve">
+<sodipodi:namedview  inkscape:cy="233.24617" inkscape:cx="212.51437" inkscape:zoom="0.921875" showgrid="false" guidetolerance="10" gridtolerance="10" objecttolerance="10" bordercolor="#666666" pagecolor="#ffffff" borderopacity="1" id="namedview20" inkscape:current-layer="svg2" inkscape:window-maximized="0" inkscape:window-y="0" inkscape:window-x="0" inkscape:window-height="861" inkscape:window-width="1447" inkscape:pageshadow="2" inkscape:pageopacity="0">
+	</sodipodi:namedview>
+<g id="g16" transform="scale(0.015625)">
+	
+		<linearGradient id="coin_1_" gradientUnits="userSpaceOnUse" x1="13253.1719" y1="19595.4219" x2="13253.1719" y2="19594.4219" gradientTransform="matrix(511.9456 0 0 -512.0052 -6768504.5 10032958)">
+		<stop  offset="0" style="stop-color:#F9AA4B"/>
+		<stop  offset="1" style="stop-color:#F7931A"/>
+	</linearGradient>
+	<path id="coin" fill="url(#coin_1_)" d="M32274.391,20347.422c-2188.313,8777.188-11078.188,14118.875-19856.375,11930.125
+		C3643.328,30089.234-1698.359,21198.859,490.953,12422.172c2187.25-8778.25,11077.125-14120.5,19852.813-11932.188
+		C29121.453,2678.297,34462.641,11569.672,32274.391,20347.422L32274.391,20347.422z"/>
+	<path id="symbol" fill="#FFFFFF" d="M23603.641,14049.797c326.125-2180.125-1333.75-3352.063-3603.438-4133.875l736.25-2953.25
+		l-1797.625-448l-716.813,2875.438c-472.563-117.813-957.938-228.875-1440.25-339l721.938-2894.313l-1796.625-448l-736.75,2952.188
+		c-391.188-89.063-775.188-177.125-1147.938-269.813l2.063-9.188l-2479.125-619.063l-478.188,1920
+		c0,0,1333.75,305.688,1305.625,324.625c728.063,181.75,859.625,663.563,837.625,1045.5l-838.688,3364.375
+		c50.188,12.813,115.188,31.25,186.875,59.875c-59.875-14.813-123.875-31.188-189.938-47.063l-1175.563,4712.938
+		c-89.063,221.188-314.875,552.938-823.813,427c17.938,26.125-1306.625-326.125-1306.625-326.125l-892.375,2057.688
+		l2339.313,583.188c435.188,109.063,861.688,223.25,1281.563,330.75l-743.938,2987l1795.563,448l736.75-2955.25
+		c490.5,133.125,966.688,256,1432.563,371.688l-734.188,2941.438l1797.625,448l743.938-2981.375
+		c3065.313,580.125,5370.375,346.125,6340.625-2426.313c781.813-2232.375-38.938-3520-1651.75-4359.688
+		C22482.891,16418.297,23367.578,15645.672,23603.641,14049.797L23603.641,14049.797z M19496.391,19809.297
+		c-555.5,2232.313-4314.125,1025.5-5532.688,722.938l987.188-3957.25C16169.391,16879.109,20077.016,17481.234,19496.391,19809.297z
+		 M20052.391,14017.547c-506.875,2030.563-3635.188,998.875-4649.938,746l894.938-3589.125
+		C17312.203,11427.359,20580.266,11899.422,20052.391,14017.547z"/>
+</g>
+</svg>

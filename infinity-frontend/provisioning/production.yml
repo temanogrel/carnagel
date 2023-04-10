@@ -1,0 +1,37 @@
+- name: Deploy application to production
+  hosts: production
+  become: yes
+  tasks:
+  - name: Check if dist.tar.gz exists
+    stat:
+      path: ../production.tar.gz
+
+  - name: Remove the existing project
+    file:
+      path: "/opt/infinity/frontend"
+      state: absent
+
+  - name: Re-create the folder so it's empty
+    file:
+      path: "/opt/infinity/frontend"
+      state: directory
+      owner: www-data
+      group: www-data
+
+  - name: Replace with a new release
+    unarchive:
+      src: "../production.tar.gz"
+      dest: "/opt/infinity/frontend"
+      owner: www-data
+      group: www-data
+
+  - name: Scan the folder for files to push
+    find:
+      path: "/opt/infinity/frontend/static/build"
+      patterns: "^(manifest|vendor|main)-(.*).js$"
+      use_regex: yes
+    register: http2_push_files
+
+  vars:
+    current_env: 'production'
+    ansible_ssh_pipelining: 'yes'
