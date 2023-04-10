@@ -1,0 +1,14 @@
+.animate-up-opacity-base {
+  -webkit-transition :transform 0.3s ease, opacity 0.5s ease;
+  -moz-transition : transform 0.3s ease, opacity 0.5s ease;
+  -o-transition : transform 0.3s ease, opacity 0.5s ease;
+  -ms-transition : transform 0.3s ease, opacity 0.5s ease;
+  transition: transform 0.3s ease, opacity 0.5s ease;
+
+  transform: translateY(0px);
+  opacity: 1;
+  &.animate-up-opacity {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+}

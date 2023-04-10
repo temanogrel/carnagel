@@ -1,0 +1,21 @@
+.auto-complete-suggestions {
+  border-radius: 3px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  background: $grey;
+  margin-top: 15px;
+  font-size: 90%;
+  position: absolute;
+  overflow: auto;
+  width: 350px;
+  z-index: 2;
+
+  .suggestion {
+    padding: 5px 20px;
+  }
+
+  .highlighted {
+    color: white;
+    background: $blue;
+    cursor: default;
+  }
+}
