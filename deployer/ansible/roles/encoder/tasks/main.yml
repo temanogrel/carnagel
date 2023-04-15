@@ -1,0 +1,12 @@
+- name: Upload services
+  template:
+    src: encoder.nomad.j2
+    dest: ./encoder.nomad
+  with_items:
+    - encoder.nomad
+
+- name: Tell nomad to run the updated job
+  command: nomad run {{item}}
+  run_once: yes
+  with_items:
+    - encoder.nomad

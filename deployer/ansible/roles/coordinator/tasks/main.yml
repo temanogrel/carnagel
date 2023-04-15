@@ -1,0 +1,8 @@
+- name: Upload coordinator templates
+  template:
+    src: coordinator.nomad.j2
+    dest: ./coordinator.nomad
+
+- name: Tell nomad to run the updated job
+  command: nomad run coordinator.nomad
+  run_once: yes

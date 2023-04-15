@@ -1,0 +1,55 @@
+job "elasticsearch" {
+
+  type = "service"
+  region = "global"
+
+  datacenters = [
+    "hetzner1"
+  ]
+
+  constraint {
+    attribute = "${meta.special_app}"
+    operator = "set_contains"
+    value = "elasticsearch"
+  }
+
+  update {
+    stagger = "10s"
+    max_parallel = 1
+  }
+
+  group "elasticsearch" {
+    count = 6
+
+    task "elasticsearch" {
+      driver = "raw_exec"
+
+      env {
+        ES_PATH_CONF = "/opt/elasticsearch-{{ elasticsearch_version }}/config"
+      }
+
+      config {
+        command = "/opt/elasticsearch-{{ elasticsearch_version }}/bin/elasticsearch"
+      }
+
+      service {
+        name = "elasticsearch"
+        port = "elasticsearch"
+        tags = [
+          "elasticsearch"
+        ]
+      }
+
+      resources {
+        cpu = 500
+        memory = 256
+        network {
+          mbits = 1
+          port "elasticsearch" {
+            static = "9200"
+          }
+        }
+      }
+    }
+  }
+}

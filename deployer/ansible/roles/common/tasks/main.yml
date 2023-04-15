@@ -1,0 +1,16 @@
+- include: ssh.yml
+  tags:
+    - ssh
+
+- include: packages.yml
+- include: cpu.yml
+- include: limits.yml
+- include: mail.yml
+- include: iptables.yml
+- include: ssl.yml
+  tags:
+    - ssl
+
+- include: crontab.yml
+  tags:
+    - cron

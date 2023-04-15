@@ -1,0 +1,32 @@
+- name: Install Java
+  become: yes
+  apt:
+    name: default-jre
+    update_cache: yes
+    state: latest
+
+- name: Download and install elasticsearch
+  unarchive:
+    src: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{{ elasticsearch_version }}.tar.gz"
+    dest: "/opt/"
+    remote_src: "yes"
+    owner: "nomad"
+    group: "nomad"
+    creates: "/opt/elasticsearch-{{ elasticsearch_version }}"
+  become: "yes"
+
+- name: Register all installed plugins
+  command: "/opt/elasticsearch-{{ elasticsearch_version }}/bin/elasticsearch-plugin list"
+  register: "elasticsearch_installed_plugins"
+  become: "yes"
+  become_user: "nomad"
+
+- name: Install elasticsearch x-pack plugin
+  command: "/opt/elasticsearch-{{ elasticsearch_version }}/bin/elasticsearch-plugin install --batch {{item}}"
+  become: "yes"
+  become_user: "nomad"
+  when: "'{{item}}' not in elasticsearch_installed_plugins.stdout"
+  with_items:
+    - x-pack
+    - ingest-geoip
+    - ingest-user-agent

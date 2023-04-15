@@ -1,0 +1,8 @@
+- include: node.yml
+  when: component == "node" or component == "all"
+
+- include: wallet.yml
+  when: component == "wallet" or component == "all"
+
+- include: plutus.yml
+  when: component == "plutus" or component == "all"

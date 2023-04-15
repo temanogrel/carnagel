@@ -1,0 +1,36 @@
+upstream aphrodite_backend {
+    least_conn;
+
+{% for host in groups['php'] %}
+    server {{ hostvars[host]['internal_ip'] }}:9000;
+{% endfor %}
+
+    zone aphrodite_backend 256k;
+	keepalive 256;
+}
+
+server {
+    server_name api.aphrodite.vee.bz 10g.api.aphrodite.vee.bz 10g.aphrodite.vee.bz aphrodite.vee.bz;
+    root /opt/aphrodite/public;
+    index index.php;
+
+    client_max_body_size 100m;
+
+    access_log /var/log/nginx/aphrodite_access.log;
+    error_log /var/log/nginx/aphrodite_error.log;
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~* \.php$ {
+        include fastcgi_params;
+
+        fastcgi_pass  aphrodite_backend;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_read_timeout 300;
+    }
+}

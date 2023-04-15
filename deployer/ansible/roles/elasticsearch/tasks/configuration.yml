@@ -1,0 +1,28 @@
+- name: set vm.max_map_count
+  become: yes
+  lineinfile:
+    name: /etc/sysctl.conf
+    line: vm.max_map_count=262144
+    state: present
+
+- name: create elasticsearch dirs
+  become: yes
+  file:
+    path: "{{ item }}"
+    owner: nomad
+    group: nomad
+    state: directory
+  with_items:
+    - "/var/elasticsearch"
+    - "/var/log/elasticsearch"
+    - "/etc/elasticsearch"
+
+- name: upload config
+  become: yes
+  template:
+    src: "templates/{{ item }}.j2"
+    dest: "/opt/elasticsearch-{{ elasticsearch_version }}/config/{{ item }}"
+  with_items:
+    - elasticsearch.yml
+    - log4j2.properties
+    - jvm.options

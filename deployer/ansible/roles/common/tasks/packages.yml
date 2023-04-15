@@ -1,0 +1,50 @@
+- name: Update sources
+  become: yes
+  apt: 
+    update_cache: yes
+    cache_valid_time: 3600
+    upgrade: safe
+
+- name: Install common packages
+  become: yes
+  apt: 
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - fail2ban
+    - nano
+    - silversearcher-ag
+    - python-software-properties
+    - software-properties-common
+    - git
+    - httpie
+    - htop
+    - bwm-ng
+    - vim
+    - curl
+    - language-pack-en
+    - python-pip
+    - python3-pip
+
+- name: add git ppa
+  become: yes
+  apt_repository:
+    repo: ppa:git-core/ppa
+    update_cache: yes
+    state: present
+
+- name: install git
+  become: yes
+  apt:
+    name: git
+    state: latest
+
+- name: start fail2ban
+  become: yes
+  service:
+    name: fail2ban
+    enabled: yes
+    state: started
+
+- include: raid_tools.yml
+  when: install_raid_tools is defined and install_raid_tools == true

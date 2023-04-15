@@ -1,0 +1,9 @@
+client {
+  meta {
+		{% for entry in nomad_meta %}
+		"{{ entry.key }}" = "{{ entry.value }}"
+		{% endfor %}
+
+		"internal_interface" = "{{ internal_network_interface }}"
+  }
+}

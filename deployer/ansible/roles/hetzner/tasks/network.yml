@@ -1,0 +1,16 @@
+- name: "configure {{ internal_network_interface }}"
+  become: yes
+  template:
+    dest:  "/etc/network/interfaces.d/{{ internal_network_interface }}.cfg"
+    src: templates/eth.j2
+
+- name: make sure interfaces.d is loaded
+  become: yes
+  lineinfile:
+    dest: /etc/network/interfaces
+    line: "source /etc/network/interfaces.d/*.cfg"
+    state: present
+
+- name: "start {{ internal_network_interface }}"
+  become: yes
+  command: "ifup {{ internal_network_interface }}"

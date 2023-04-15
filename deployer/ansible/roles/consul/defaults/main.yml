@@ -1,0 +1,10 @@
+consul_version: 0.7.5
+consul_dc: hetzner1
+consul_encrypt_key: Fu/O/0dKRuJvxnCSxq5W7g==
+consul_bootstrap_servers:
+  - "\"10g.m1.vee.bz\""
+consul_bootstrap_clients:
+  - "\"10g.m1.vee.bz\""
+  - "\"10g.m2.vee.bz\""
+  - "\"10g.m3.vee.bz\""
+consul_ui: false

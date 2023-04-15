@@ -1,0 +1,21 @@
+- name: update sshd config
+  become: yes
+  copy:
+    dest: /etc/ssh/sshd_config
+    src: files/sshd_config
+  register: update_sshd
+
+- name: Install the deploy key
+  copy:
+    dest: /opt/deploy_key
+    src: deploy_key
+    owner: ansible
+    group: ansible
+    mode: 0600
+
+- name: restart sshd
+  become: yes
+  service:
+    name: sshd
+    state: restarted
+  when: update_sshd is changed

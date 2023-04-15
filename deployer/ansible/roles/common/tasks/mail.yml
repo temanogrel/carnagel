@@ -1,0 +1,37 @@
+- name: select postfix/main_mailer_type
+  become: yes
+  debconf:
+    name: postfix
+    question: postfix/main_mailer_type
+    value: Internet Site
+    vtype: select
+
+- name: install mail packages
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - postfix
+    - mailutils
+
+- name: update /etc/postfix/main.cf
+  become: yes
+  command: "sed -i -e 's/inet_interfaces = all/inet_interfaces = loopback-only/g' /etc/postfix/main.cf"
+
+- name: add alias
+  become: yes
+  lineinfile:
+    line: "root: 64a4ec7c-8713-4c72-b657-f66ed007c8cd+email@alert.victorops.com"
+    path: /etc/aliases
+    state: present
+
+- name: newaliasses
+  become: yes
+  command: newaliases
+
+- name: reload postfix
+  become: yes
+  service:
+    name: postfix
+    state: reloaded

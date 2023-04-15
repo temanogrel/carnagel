@@ -1,0 +1,39 @@
+- name: Update to the latest version in master
+  git:
+    repo: "{{ git.repo }}"
+    version: "{{ git.branch }}"
+    dest: "{{ paths.application }}"
+    accept_hostkey: true
+    force: yes
+    key_file: /opt/deploy_key
+  notify:
+    - reload php-fpm
+
+- name: Run composer install without development dependencies
+  composer:
+    command: install
+    working_dir: "{{paths.application}}"
+    no_dev: yes
+
+- name: Set permissions
+  file:
+    path: "{{ paths.application }}"
+    state: directory
+    owner: "ansible"
+    group: "www-data"
+    recurse: yes
+  become: yes
+
+- name: Clear cache twig cache
+  file:
+    path: "{{ paths.application }}/data/cache/twig"
+    state: absent
+  notify:
+    - reload php-fpm
+
+- name: Clear doctrine proxy cache
+  file:
+    path: "{{ paths.application }}/data/cache/DoctrineEntityProxy"
+    state: absent
+  notify:
+    - reload php-fpm

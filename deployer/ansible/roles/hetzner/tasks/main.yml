@@ -1,0 +1,8 @@
+- include: install_os.yml
+  when: step == "install"
+
+- include: init.yml
+  when: step == "init"
+
+- include: network.yml
+  when: step == "network"

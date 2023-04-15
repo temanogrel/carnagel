@@ -1,0 +1,34 @@
+bind_addr = "{{ nomad_bind_addr }}"
+data_dir = "/var/nomad/"
+
+datacenter = "{{ nomad_dc }}"
+
+addresses {
+  http = "127.0.0.1"
+  rpc  = "{{ internal_ip }}"
+  serf = "{{ internal_ip }}"
+}
+
+advertise {
+  http = "127.0.0.1"
+  rpc  = "{{ internal_ip }}"
+  serf = "{{ internal_ip }}"
+ }
+
+{% if nomad_role == 'client' %}
+client {
+  enabled = true
+  servers = [{{ nomad_servers|join(', ') }}]
+  network_speed = {{ nomad_network_speed }}
+  network_interface = "{{ nomad_network_interface }}"
+  options = {
+    "driver.raw_exec.enable" = "{{ nomad_raw_exec_enabled }}"
+  }
+}
+{% endif %}
+{% if nomad_role == 'server' %}
+server {
+  enabled          = true
+  bootstrap_expect = 3
+}
+{% endif %}

@@ -1,0 +1,5 @@
+- name: Install run.sh
+  template: src=script.sh dest=./migration.sh mode=0777
+
+- name: Run the script
+  command: ./migration.sh

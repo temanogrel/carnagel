@@ -1,0 +1,8 @@
+- name: Install the server.crt and server.key
+  copy:
+    src: "{{item}}"
+    dest: "/etc/ssl/{{item}}"
+  become: yes
+  with_items:
+    - server.crt
+    - server.key

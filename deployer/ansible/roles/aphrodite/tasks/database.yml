@@ -1,0 +1,20 @@
+- name: Clear cache
+  command: php {{paths.public}}/index.php {{item}}
+  with_items:
+    - orm:clear-cache:metadata
+    - orm:clear-cache:query
+    - orm:clear-cache:result
+  run_once: yes
+
+- name: Install the database
+  command: php {{paths.public}}/index.php migrations:migrate --no-interaction --allow-no-migration
+  register: migrate_database
+  changed_when: "migrate_database.rc == 0 and 'Database schema updated successfully' in migrate_database.stdout"
+  run_once: yes
+
+- name: Generate proxies
+  command: php {{paths.public}}/index.php orm:generate:proxies
+
+- name: Ensure production environment settings
+  command: php {{paths.public}}/index.php orm:ensure-production-settings
+  run_once: yes

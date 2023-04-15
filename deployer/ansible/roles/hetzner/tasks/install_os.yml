@@ -1,0 +1,44 @@
+- name: check if on rescue
+  stat:
+    path: /root/.oldroot/nfs/install/installimage
+  register: rescue
+
+- name: fail if not on rescue
+  fail:
+  when: rescue.stat.exists == false
+
+- name: upload autosetup (application servers)
+  template:
+    dest: /autosetup
+    src: templates/autosetup.application.j2
+  when: "'application' in group_names"
+
+- name: upload autosetup (storage servers)
+  template:
+    dest: /autosetup
+    src: templates/autosetup.storage.j2
+  when: "'storage' in group_names"
+
+- name: upload autosetup (edge servers)
+  template:
+    dest: /autosetup
+    src: templates/autosetup.edge.j2
+  when: "'edge' in group_names"
+
+- name: upload postinstall.sh
+  copy:
+    src: files/postinstall.sh
+    dest: /root/postinstall.sh
+    mode: 0755
+
+- name: run installimage
+  shell: /root/.oldroot/nfs/install/installimage -x /root/postinstall.sh
+  args:
+    executable: /bin/bash
+
+- name: reboot machine
+  command: reboot
+
+- name: remove server from local known_hosts file
+  local_action: command  /usr/bin/ssh-keygen -R {{ inventory_hostname }}
+  ignore_errors: true

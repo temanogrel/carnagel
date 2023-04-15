@@ -1,0 +1,12 @@
+- name: Upload services
+  template:
+    src: download.nomad.j2
+    dest: ./download.nomad
+  with_items:
+    - download.nomad
+
+- name: Tell nomad to run the updated job
+  command: nomad run {{item}}
+  run_once: yes
+  with_items:
+    - download.nomad

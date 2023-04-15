@@ -1,0 +1,8 @@
+- name: Upload infinity-api templates
+  template:
+    src: infinity-api.nomad.j2
+    dest: ./infinity-api.nomad
+
+- name: Tell nomad to run the updated job
+  command: nomad run infinity-api.nomad
+  run_once: yes

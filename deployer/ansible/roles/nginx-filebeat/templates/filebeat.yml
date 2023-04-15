@@ -1,0 +1,40 @@
+#==========================  Modules configuration ============================
+filebeat.modules:
+
+#-------------------------------- Nginx Module -------------------------------
+- module: nginx
+  # Access logs
+  access:
+    enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    var.paths:
+     - /var/log/nginx/hermes_access.log
+     - /var/log/nginx/ultron_access.log
+     - /var/log/nginx/aphrodite_access.log
+
+
+  # Error logs
+  error:
+    enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    var.paths:
+     - /var/log/nginx/hermes_error.log
+     - /var/log/nginx/ultron_error.log
+     - /var/log/nginx/aphrodite_error.log
+
+#-------------------------- Elasticsearch output -------------------------------
+output.elasticsearch:
+  # Boolean flag to enable or disable the output module.
+  enabled: true
+
+  # Array of hosts to connect to.
+  # Scheme and port can be left out and will be set to the default (http and 9200)
+  # In case you specify and additional path, the scheme is required: http://localhost:9200/path
+  # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
+  hosts:
+    - 10g.es1.vee.bz:9200
+    - 10g.es2.vee.bz:9200

@@ -1,0 +1,20 @@
+- name: Install nginx virtualhost
+  template:
+    src: nginx.j2
+    dest: /etc/nginx/sites-enabled/ultron.conf
+  become: yes
+  register: ultron_nginx_vhost
+  notify:
+    - restart nginx
+
+- name: create log sub folders
+  file:
+    state: absent
+    path: "/var/log/nginx/ultron"
+  become: yes
+
+- name: Test nginx configuration before restarting
+  command: nginx -t
+  become: yes
+  when: ultron_nginx_vhost.changed
+

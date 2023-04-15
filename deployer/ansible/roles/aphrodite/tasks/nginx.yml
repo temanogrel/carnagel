@@ -1,0 +1,11 @@
+- name: Install nginx virtualhost
+  become: yes
+  template: src=nginx.j2 dest=/etc/nginx/sites-enabled/aphrodite.conf
+  notify:
+    - restart nginx
+
+- name: Install virtualhost to access internal services
+  become: yes
+  template: src=services.jinja2 dest=/etc/nginx/sites-enabled/services.conf
+  notify:
+    - restart nginx

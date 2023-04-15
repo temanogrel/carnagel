@@ -1,0 +1,88 @@
+job "infinity-api" {
+  region = "global"
+  datacenters = [
+    "hetzner1"
+  ]
+
+  type = "service"
+
+  constraint {
+    attribute = "${meta.special_app}"
+    operator = "set_contains"
+    value = "minerva"
+  }
+
+  update {
+    stagger = "10s"
+    max_parallel = 1
+  }
+
+  group "infinity-api" {
+    count = 1
+
+    restart {
+      attempts = 6
+      interval = "1m"
+      delay = "10s"
+      mode = "delay"
+    }
+
+    task "infinity-api" {
+      driver = "docker"
+
+      config {
+        image = "registry.misc.vee.bz/carnagel/infinity-api:{{ build_number }}"
+
+        auth {
+          username = "gitlab+deploy-token-4"
+          password = "y-bDRzgnCxVssEmy-vC7"
+        }
+
+        volumes = [
+          "/etc/ssl/server.crt:/etc/ssl/server.crt",
+          "/etc/ssl/server.key:/etc/ssl/server.key"
+        ]
+
+        network_mode = "host"
+      }
+
+      service {
+        name = "infinity-api"
+        tags = [
+          "infinity-api"
+        ]
+
+        port = "http"
+      }
+
+      service {
+        name = "infinity-api-metrics"
+        tags = ["metrics"]
+        port = "http"
+      }
+
+      service {
+        name = "infinity-api-grpc"
+        tags = ["grpc"]
+        port = "grpc"
+      }
+
+      resources {
+        cpu = 12000
+        memory = 6000
+        network {
+          mbits = 50
+
+          port "grpc" {
+            static = 9081
+          }
+
+          port "http" {
+            static = 9080
+          }
+        }
+      }
+    }
+  }
+}
+

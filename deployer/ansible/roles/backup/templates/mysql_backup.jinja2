@@ -1,0 +1,47 @@
+#!/bin/bash
+# Shell script to backup MySql database
+
+# CONFIG - Only edit the below lines to setup the script
+# ===============================
+
+MyUSER="{{ lookup('env', 'MYSQL_ROOT_USER') }}" # USERNAME
+MyPASS="{{ lookup('env', 'MYSQL_ROOT_PASS') }}" # PASSWORD
+
+S3Bucket="infin-mysql" # S3 Bucket
+
+# DO NOT EDIT BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING
+# ===============================
+
+# Linux bin paths, change this if it can not be autodetected via which command
+MYSQLDUMP="$(which mysqldump)"
+CHOWN="$(which chown)"
+CHMOD="$(which chmod)"
+
+# Backup Dest directory, change this if you have someother location
+DEST="/tmp/backup"
+
+# Main directory where backup will be stored
+MBD="$DEST/mysql-$(date +"%d-%m-%Y_%T")"
+
+# Get hostname
+HOST="$(hostname)"
+
+# Get data in dd-mm-yyyy format
+NOW="$(date +"%d-%m-%Y")"
+
+[ ! -d $MBD ] && mkdir -p $MBD || :
+
+# Only root can access it!
+$CHOWN 0.0 -R $DEST
+$CHMOD 0600 $DEST
+
+TMP="$MBD/$HOST.$NOW.sql.gz"
+
+# dump database to file and gzip
+$MYSQLDUMP -u $MyUSER -p$MyPASS --single-transaction --quick --all-databases | gzip --best > $TMP
+
+# copy mysql backup directory to S3
+s3cmd sync -rv --config=s3.conf --skip-existing $MBD s3://$S3Bucket/
+
+# delete local folder
+rm -rf $MBD

@@ -1,0 +1,31 @@
+{
+  "datacenter": "{{ consul_dc }}",
+  "data_dir": "/var/consul",
+  "encrypt": "{{ consul_encrypt_key }}",
+  "bind_addr": "{{ internal_ip }}",
+  {% if consul_ui == true %}
+  "ui": true,
+  {% endif %}
+  {% if consul_role == 'server' %}
+  "server": true,
+  {% endif %}
+  {% if consul_role == 'client' %}
+  "server": false,
+  {% endif %}
+  {% if consul_role == 'server' %}
+  "start_join": [{{ consul_bootstrap_servers|join(', ') }}],
+  "bootstrap_expect": 3,
+  {% endif %}
+  {% if consul_role == 'client' %}
+  "start_join": [{{ consul_bootstrap_clients|join(', ') }}],
+  {% endif %}
+  "log_level": "INFO",
+  "enable_syslog": true,
+  "node_meta": {
+    {% if server_type is defined %}
+    "server_type": "{{ server_type }}",
+    {% endif %}
+    "external_hostname": "{{ inventory_hostname[4:] }}",
+    "internal_hostname": "{{ inventory_hostname }}"
+  }
+}

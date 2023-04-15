@@ -1,0 +1,32 @@
+- name: restore sources.list
+  copy:
+    src: files/sources.list.ori
+    dest: /etc/apt/sources.list
+
+- name: apt-get update
+  apt:
+    update_cache: yes
+
+- name: create default user
+  user:
+    name: ansible
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    groups: "sudo"
+    append: yes
+    password: "$6$slFmiw/uCduIDmF1$X8POQCIEglQwYPlY2FSQmx.neFv/JqQPj9xvM880vHEUIXBYycvlLhRWA7QkevUDIgjg3kdS9BHYLUMEcRPpT0"
+    shell: /bin/bash
+    state: present
+
+- name: add ssh ssh keys
+  authorized_key:
+    key: "{{ item }}"
+    user: ansible
+    state: present
+  with_items: "{{ ssh_keys }}"
+
+- name: add john ssh key for root
+  authorized_key:
+    key: "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAmBADizn+tSJabyD2w4vFrcVGvFuAh0u7Rdvg9+Uwzgojdeq8JHr3b/D9hat5VFGXDsG+/Jr0o5xZpuBKXmluU6OOcnddXLAbKd/pZ3ZiXmycYsRDyxgEAlTRnVMn4vVdDC6+Xy6daWkznShrP2K16BIH87SFKgA3T2PVic6TvCFFRBIrS+1zSRAkAKNnRzOruVWiB2b5yYnJ5lSI9NbP+KCapBJVxg/KzlpnoSC5/ELGXQftM9mc8UcKcAfpvGzhrcN+s3mVzqKL0rG4byHT+S1SeOR8NKBzIPefn51cTYinvirvsNd7KuSGpXKM3v7wXnHPU0l1CEqgiSstmr6X82+QehHnTf3tv3Lxjp1nVaBgdlu+w3JqzTkrFyeEAglWY7utLf+wiQCqJ0X2jrkXEd323zFloAyFFYfu9Z0kGfFt7DWPqUMRod/3XL69nQGeqnIp0kbrdBODLuw1xXJXIy4n+sUKc+XCl0D6ojMyJoaB2BrXw55NCRSakVTgML+B7LFDlnd/UBbYXMbjkKkYb6B+6TgqD88A0WPHuJc/tO9pSQL8nwSGNckG/cQ/HgyJFquPs1UxINmIVZtUocCyRsYFMw3AzNdU5ejXZEIIzZLIyAEfN+jRO/uYcctr//tTaxOaPsZWZbk9xmU9TkfZSmjB5CJqoC4Gv92toD042m0= rsa-key-20170405"
+    user: root
+    state: present

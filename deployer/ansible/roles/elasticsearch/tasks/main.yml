@@ -1,0 +1,8 @@
+- include: installation.yml
+  tags: ['installation']
+
+- include: configuration.yml
+  tags: ['config']
+
+- include: nomad.yml
+  tags: ['nomad']

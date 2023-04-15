@@ -1,0 +1,15 @@
+DRIVE1 /dev/sda
+DRIVE2 /dev/sdb
+
+SWRAID 1
+SWRAIDLEVEL 1
+
+BOOTLOADER grub
+
+HOSTNAME {{ inventory_hostname }}
+
+PART /boot ext3 1024M
+PART /     ext4 50G
+PART /data ext4 all
+
+IMAGE {{ hetzner_image }}

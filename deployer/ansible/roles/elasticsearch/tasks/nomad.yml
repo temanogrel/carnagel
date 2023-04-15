@@ -1,0 +1,14 @@
+- name: Upload elasticsearch templates
+  template:
+    src: elasticsearch.nomad.j2
+    dest: ./elasticsearch.nomad.j2
+  delegate_to: "{{item}}"
+  delegate_facts: yes
+  with_items: "{{groups['masters']}}"
+  run_once: yes
+
+- name: Tell nomad to run the updated job
+  command: nomad run elasticsearch.nomad.j2
+  delegate_to: "{{groups['masters'][0]}}"
+  delegate_facts: True
+  run_once: yes

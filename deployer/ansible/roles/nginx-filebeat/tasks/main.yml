@@ -1,0 +1,37 @@
+- name: Install apt-transport-https (Required to run apt update after adding repo)
+  apt:
+    name: apt-transport-https
+    state: present
+  become: yes
+
+- name: Install elastic.co debian key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+  become: yes
+
+- name: Install elastic.co debian repo
+  apt_repository:
+    repo: "deb https://artifacts.elastic.co/packages/5.x/apt stable main"
+    state: present
+  become: yes
+
+- name: Install filebeat
+  apt:
+    name: filebeat
+    state: latest
+  become: yes
+
+- name: Configure filebeat to start during boot
+  command: update-rc.d filebeat defaults 95 10
+  become: yes
+
+- name: Install the configuration file
+  template:
+    src: filebeat.yml
+    dest: /etc/filebeat/filebeat.yml
+  become: yes
+
+- name: Start filebeat
+  command: /etc/init.d/filebeat start
+  become: yes

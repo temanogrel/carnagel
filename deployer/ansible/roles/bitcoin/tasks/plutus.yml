@@ -1,0 +1,15 @@
+- name: Upload btc-plutus template
+  template:
+    src: btc-plutus.nomad
+    dest: ./btc-plutus.nomad
+  delegate_to: "{{ item }}"
+  delegate_facts: yes
+  with_items: "{{ groups['masters'] }}"
+  run_once: yes
+
+- name: Tell nomad to run the updated job
+  command: nomad run btc-plutus.nomad
+  delegate_to: "{{ item }}"
+  delegate_facts: yes
+  with_items: "{{ groups['masters'] }}"
+  run_once: yes

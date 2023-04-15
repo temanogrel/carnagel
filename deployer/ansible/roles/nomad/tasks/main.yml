@@ -1,0 +1,120 @@
+- name: add Nomad group
+  become: yes
+  group:
+    name: nomad
+    state: present
+
+- name: add Nomad user (server)
+  become: yes
+  user:
+    name: nomad
+    group: nomad
+    state: present
+  when: nomad_role == 'server'
+
+- name: add Nomad user (client)
+  become: yes
+  user:
+    name: nomad
+    group: nomad
+    groups: docker
+    append: yes
+    state: present
+  when: nomad_role == 'client'
+
+- name: check for /data
+  stat:
+    path: /data
+  register: data
+
+- name: set permission for data
+  become: yes
+  file:
+    path: /data
+    owner: nomad
+    group: nomad
+    recurse: no
+  when: data.stat.exists == true
+
+- name: download Nomad
+  become: yes
+  get_url:
+    url: "https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version}}_linux_amd64.zip"
+    dest: "/home/nomad/nomad_{{ nomad_version }}.zip"
+    owner: nomad
+    group: nomad
+
+- name: extract Nomad
+  become: yes
+  unarchive:
+    src: "/home/nomad/nomad_{{ nomad_version }}.zip"
+    dest: "/home/nomad"
+    remote_src: yes
+    owner: nomad
+    group: nomad
+
+- name: install Nomad
+  become: yes
+  copy:
+    dest: /usr/local/bin/nomad
+    src: "/home/nomad/nomad"
+    remote_src: yes
+    mode: 0751
+
+- name: create dirs
+  become: yes
+  file:
+    path: "/{{ item }}"
+    owner: nomad
+    group: nomad
+    state: directory
+  with_items:
+    - /etc/nomad.d
+    - /var/nomad
+
+- name: upload configs
+  become: yes
+  template:
+    src: "templates/nomad.hcl.j2"
+    dest: "/etc/nomad.d/nomad.hcl"
+    owner: nomad
+    group: nomad
+  tags:
+    - nomad_config
+
+- name: upload nomad_extra (client)
+  become: yes
+  template:
+    src: "templates/extra.hcl.j2"
+    dest: "/etc/nomad.d/extra.hcl"
+    owner: nomad
+    group: nomad
+  when: nomad_role == 'client'
+  tags:
+    - nomad_config
+
+- name: add Nomad systemd service
+  become: yes
+  template:
+    dest: /etc/systemd/system/nomad.service
+    src: templates/nomad.service.j2
+  tags:
+    - nomad_config
+
+- name: start nomad
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    name: nomad
+    state: started
+
+- name: restart nomad
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    name: nomad
+    state: restarted
+  tags:
+    - nomad_config

@@ -1,0 +1,15 @@
+- name: upload cpufrequtils
+  become: yes
+  copy:
+    dest: /etc/default/cpufrequtils
+    src: files/cpufrequtils
+
+- name: disable ondemand
+  become: yes
+  command: update-rc.d ondemand disable
+
+- name: restart cpufrequtils
+  become: yes
+  service:
+    name: cpufrequtils
+    state: restarted

@@ -1,0 +1,16 @@
+- name: Update to the latest version in master
+  git: repo={{ git.repo }} version={{ git.branch }} dest={{ paths.application }} accept_hostkey=yes force=yes
+  register: application_git_pull
+  notify:
+    - reload php-fpm
+
+- name: Clear cache
+  file: path={{paths.application}}/data/cache/* state=absent
+  when: application_git_pull.changed or (clear_cache | default(false) == true)
+
+- name: Run composer self-update
+  composer: command=self-update working_dir={{paths.application}}
+  become: yes
+
+- name: Run composer install without development dependencies
+  composer: command=install working_dir={{paths.application}} no_dev=yes

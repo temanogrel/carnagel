@@ -1,0 +1,62 @@
+job "download" {
+  region = "global"
+  datacenters = ["hetzner1"]
+  type = "system"
+
+  constraint {
+    attribute = "${meta.general_cluster}"
+    value = "1"
+  }
+
+  group "download" {
+    restart {
+      attempts = 6
+      interval = "1m"
+      delay = "10s"
+      mode = "delay"
+    }
+
+    task "download" {
+      driver = "docker"
+
+      env {
+        HOSTNAME = "${attr.unique.hostname}.vee.bz"
+        C_FORCE_ROOT = 1
+      }
+
+      config {
+        image = "halleburtin/download:{{ build_number }}"
+        args = [
+          "/usr/local/bin/celery", "worker",
+          "-A", "download",
+          "-Q", "downloading",
+          "-l", "info",
+          "-Ofair",
+          "--concurrency=75",
+        ]
+
+        volumes = [
+          "/data/downloads:/opt/downloads"
+        ]
+
+        auth {
+          email = "{{ lookup('env', 'DOCKER_EMAIL') }}"
+          username = "{{ lookup('env', 'DOCKER_USERNAME') }}"
+          password = "{{ lookup('env', 'DOCKER_PASSWORD') }}"
+        }
+
+        network_mode = "host"
+        shm_size = 1024000000
+      }
+
+      resources {
+        cpu = 5000
+        memory = 12000
+
+        network {
+          mbits = 200
+        }
+      }
+    }
+  }
+}

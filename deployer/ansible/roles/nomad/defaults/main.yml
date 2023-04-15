@@ -1,0 +1,13 @@
+nomad_version: 0.7.0
+nomad_dc: hetzner1
+nomad_servers:
+  - "\"10g.m1.vee.bz\""
+  - "\"10g.m2.vee.bz\""
+  - "\"10g.m3.vee.bz\""
+nomad_network_interface: "{{ internal_network_interface }}"
+nomad_network_speed: 10000
+nomad_raw_exec_enabled: 1
+nomad_bind_addr: 127.0.0.1
+nomad_meta:
+  - key: special_app
+    value: all

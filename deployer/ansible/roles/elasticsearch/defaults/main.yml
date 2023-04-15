@@ -1,0 +1,6 @@
+elasticserach_cluster_name: bellanaleck
+elasticserach_cluster_data_path: /var/elasticsearch
+elasticserach_cluster_log_path: /var/log/elasticsearch
+elasticserach_cluster_bind_addr: "{{ inventory_hostname }}"
+elasticserach_cluster_http_port: 9200
+elasticsearch_version: 6.2.4

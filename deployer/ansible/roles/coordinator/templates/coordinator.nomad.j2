@@ -1,0 +1,60 @@
+job "coordinator" {
+  region = "global"
+  datacenters = [
+    "hetzner1"
+  ]
+
+  type = "service"
+
+  constraint {
+    attribute = "${meta.special_app}"
+    operator = "set_contains"
+    value = "minerva"
+  }
+
+  group "coordinator" {
+    count = 1
+
+    restart {
+      attempts = 6
+      interval = "1m"
+      delay = "10s"
+      mode = "delay"
+    }
+
+    task "coordinator" {
+      driver = "docker"
+
+      config {
+        image = "registry.misc.vee.bz/carnagel/coordinator:{{ build_number }}"
+
+        auth {
+          username = "gitlab+deploy-token-5"
+          password = "Hz3Lgik5ZJ_n6WT6Zkzb"
+        }
+
+        network_mode = "host"
+      }
+
+      service {
+        name = "coordinator"
+        tags = [
+          "coordinator"
+        ]
+
+        port = "http"
+      }
+
+      resources {
+        cpu = 4000
+        memory = 4000
+        network {
+          mbits = 50
+
+          port "http" {}
+        }
+      }
+    }
+  }
+}
+

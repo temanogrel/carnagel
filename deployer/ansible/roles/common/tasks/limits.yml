@@ -1,0 +1,10 @@
+- name: set limits
+  become: yes
+  lineinfile:
+    line: "{{ item }}"
+    path: /etc/security/limits.conf
+  with_items:
+    - "soft nofile 1024000"
+    - "hard nofile 1024000"
+    - "soft nproc 10240"
+    - "hard nproc 10240"

@@ -1,0 +1,8 @@
+- name: Upload minion template
+  template:
+    src: minion.nomad.j2
+    dest: ./minion.nomad
+
+- name: Tell nomad to run the updated job
+  command: nomad run minion.nomad
+  run_once: yes

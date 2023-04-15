@@ -1,0 +1,8 @@
+- name: Clear tmp of multipart files after issues with the minion
+  cron:
+    name: "clear tmp of multipart files"
+    minute: "*/5"
+    state: present
+    job: "find /tmp/multipart-* -type f -mmin +30 -delete >/dev/null 2>&1"
+  become: yes
+  become_user: root

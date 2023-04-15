@@ -1,0 +1,106 @@
+- name: Install python-pip so ca new install python-consul
+  become: yes
+  apt:
+    name: python-pip
+    state: latest
+
+- name: Install python-consul for the ansible module
+  become: yes
+  pip:
+    name: python-consul
+    state: latest
+
+- name: add Consul group
+  become: yes
+  group:
+    name: consul
+    state: present
+
+- name: add Consul user
+  become: yes
+  user:
+    name: consul
+    group: consul
+    state: present
+
+- name: install unzip
+  become: yes
+  apt:
+    name: unzip
+    update_cache: yes
+    state: present
+
+- name: download consul
+  become: yes
+  get_url:
+    dest: "/home/consul/consul_{{ consul_version }}.zip"
+    url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
+    owner: consul
+    group: consul
+
+- name: extract consul
+  become: yes
+  unarchive:
+    src: "/home/consul/consul_{{ consul_version }}.zip"
+    dest: /home/consul/
+    remote_src: yes
+    creates: /home/consul/consul
+    owner: consul
+    group: consul
+
+- name: install consul
+  become: yes
+  copy:
+    dest: /usr/local/bin/consul
+    src: /home/consul/consul
+    remote_src: yes
+    mode: 0751
+
+- name: create dirs
+  become: yes
+  file:
+    path: "/{{ item }}"
+    owner: consul
+    group: consul
+    state: directory
+  with_items:
+    - /etc/consul.d
+    - /var/consul
+
+- name: upload config
+  become: yes
+  template:
+    src: templates/consul.hcl.j2
+    dest: /etc/consul.d/consul.hcl
+    owner: consul
+    group: consul
+  register: config
+  tags:
+    - consul_config
+
+- name: create consul unit
+  become: yes
+  template:
+    src: templates/consul.service.j2
+    dest: /etc/systemd/system/consul.service
+  tags:
+    - consul_config
+
+- name: start consul
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    name: consul
+    state: started
+
+- name: restart consul when config was changed
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    name: consul
+    state: restarted
+  when: config|changed
+  tags:
+    - consul_config

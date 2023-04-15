@@ -1,0 +1,47 @@
+job "encoder" {
+  region = "global"
+  datacenters = ["hetzner1"]
+  type = "system"
+
+  constraint {
+    attribute = "${meta.general_cluster}"
+    value = "1"
+  }
+
+  group "encoder" {
+    restart {
+      attempts = 6
+      interval = "1m"
+      delay = "10s"
+      mode = "delay"
+    }
+
+    task "encoder" {
+      driver = "docker"
+
+      env {
+        "HOSTNAME" = "${attr.unique.hostname}.vee.bz"
+      }
+
+      config {
+        image = "registry.misc.vee.bz/carnagel/encoder:{{ build_number }}"
+        
+        auth {
+          username = "gitlab+deploy-token-2"
+          password = "AjzAKN6eCned24exBsQK"
+        }
+
+        network_mode = "host"
+        shm_size = 1024000000
+      }
+        resources {
+        cpu = 22000
+        memory = 45000
+
+        network {
+          mbits = 200
+        }
+      }
+    }
+  }
+}

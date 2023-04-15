@@ -1,0 +1,41 @@
+upstream ultron_backend {
+    least_conn;
+
+    {% for host in groups['php'] %}
+    server {{ hostvars[host]['internal_ip'] }}:9000;
+    {% endfor %}
+
+    zone ultron_backend 256k;
+	keepalive 256;
+}
+
+server {
+	server_name www.camvideos.me www.boycams.me www.teencamvideos.me www.nakedcamvideos.me www.hardcorecams.me www.camcaps.me www.sweetcams.me www.malecams.me www.nakedcams.me www.camsexvideos.me;
+	if ($http_host ~ "www.(.*)") {
+        return 301 $scheme://$1$request_uri;
+    }
+}
+
+server {
+    listen 80;
+    server_name ultron.vee.bz camvideos.me boycams.me teencamvideos.me nakedcamvideos.me hardcorecams.me camcaps.me sweetcams.me malecams.me nakedcams.me camsexvideos.me;
+    root {{paths.public}};
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+    
+    access_log /var/log/nginx/ultron_access.log;
+    error_log /var/log/nginx/ultron_error.log;
+
+    location ~* \.php$ {
+        include fastcgi_params;
+
+        fastcgi_pass  ultron_backend;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}

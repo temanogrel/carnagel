@@ -1,0 +1,23 @@
+- name: Install s3cmd package
+  apt:
+    name: s3cmd
+    state: present
+
+- name: Create backup directory
+  file: path=/opt/backup state=directory
+
+- name: Install s3 backup config file
+  template: src=s3.conf.jinja2 dest=/opt/backup/s3.conf
+
+- name: Install mysql backup script for mysql server
+  template: src=mysql_backup.jinja2 dest=/opt/backup/backup.sh mode=a+x
+  when: current_env == "mysql"
+
+- name: Install postgres backup script postgres server
+  template: src=postgres_backup.jinja2 dest=/opt/backup/backup.sh mode=a+x
+  when: current_env == "postgres"
+
+- name: Run backup script
+  become: yes
+  become_method: sudo
+  shell: /opt/backup/backup.sh

@@ -1,0 +1,57 @@
+job "minion" {
+  region = "global"
+  datacenters = ["hetzner1"]
+  type = "system"
+
+  constraint {
+    attribute = "${meta.special_app}"
+    operator = "set_contains"
+    value     = "minion"
+  }
+
+  update {
+    stagger = "15s"
+    max_parallel = 10
+  }
+
+  group "minion" {
+    restart {
+      attempts = 6
+      interval = "1m"
+      delay = "10s"
+      mode = "delay"
+    }
+
+    task "minion" {
+      driver = "raw_exec"
+
+      config {
+        command = "minion"
+      }
+
+      artifact {
+        source = "http://deployer:eZKpb4uR9cEW9A7tvQF2ug3LCNZxxpzysuDYYBzbUn@teamcity.misc.vee.bz/repository/download/Minion_Build/{{ build_number }}/minion.zip"
+      }
+
+      service {
+        name = "minion"
+        tags = ["minion"]
+        port = "http"
+      }
+
+      resources {
+        cpu = 1000
+        memory = 512
+        network {
+          mbits = 50
+          port "http" {
+
+            # Do no change this, the python client for minerva assumes we are hardcoding the IP
+            # todo: we need to update minerva to add support for returning the port for the service
+            static = "6000"
+          }
+        }
+      }
+    }
+  }
+}

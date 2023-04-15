@@ -1,0 +1,10 @@
+- name: upload sysctl.conf
+  become: yes
+  copy:
+    dest: /etc/sysctl.conf
+    src: files/sysctl.conf
+
+- name: reload sysctl
+  become: yes
+  command: /sbin/sysctl -p
+  
