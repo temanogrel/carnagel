@@ -1,0 +1,18 @@
+- name: Install nginx virtualhost
+  template:
+    src: nginx.j2
+    dest: /etc/nginx/sites-enabled/hermes.conf
+  become: yes
+  notify:
+    - restart nginx
+
+- name: create log sub folders
+  file:
+    state: absent
+    path: "/var/log/nginx/hermes"
+  become: yes
+
+- name: Test nginx configuration before restarting
+  command: nginx -t
+  become: yes
+

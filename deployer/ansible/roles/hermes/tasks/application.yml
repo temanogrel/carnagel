@@ -1,0 +1,24 @@
+- name: Update to the latest version in master
+  git:
+    repo: "{{ git.repo }}"
+    version: "{{ git.branch }}"
+    dest: "{{ paths.application }}"
+    accept_hostkey: true
+    force: yes
+  notify:
+    - reload php-fpm
+
+- name: Run composer install without development dependencies
+  composer:
+    command: install
+    working_dir: "{{paths.application}}"
+    no_dev: yes
+
+- name: Set permissions
+  file:
+    path: "{{ paths.application }}"
+    state: directory
+    owner: "ansible"
+    group: "www-data"
+    recurse: yes
+  become: yes

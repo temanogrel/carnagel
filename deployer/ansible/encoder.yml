@@ -1,0 +1,9 @@
+- name: Deploy encoder microservices
+  hosts: masters
+  roles:
+    - encoder
+
+  pre_tasks:
+    - name: check required variables
+      fail: msg="build_number is not defined"
+      when: build_number is not defined

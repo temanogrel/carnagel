@@ -1,0 +1,67 @@
+global:
+  evaluation_interval: 1m # Evaluate rules every 15 seconds. The default is every 1 minute.
+
+rule_files:
+  - "/etc/prometheus/rules/*.rules"
+
+scrape_configs:
+  - job_name: node-exporter
+    scrape_interval: 4s
+    consul_sd_configs:
+      - server: 127.0.0.1:8500
+        datacenter: hetzner1
+        services:
+          - node-exporter
+
+    relabel_configs:
+      - source_labels: ['__meta_consul_dc']
+        target_label: 'datacenter'
+      - source_labels: ['__meta_consul_tags']
+        target_label: 'tags'
+      - source_labels: ['__meta_consul_node']
+        target_label: 'node'
+      - source_labels: ['__meta_consul_address']
+        target_label: 'instance'
+
+  - job_name: metrics
+    consul_sd_configs:
+      - server: 127.0.0.1:8500
+        datacenter: hetzner1
+        services:
+          - rabbitmq-metrics
+          - postgres-metrics
+          - mysql-metrics
+          - redis-metrics
+          - minerva-metrics
+          - infinity-api-metrics
+
+    relabel_configs:
+      - source_labels: ['__meta_consul_dc']
+        target_label: 'datacenter'
+      - source_labels: ['__meta_consul_tags']
+        target_label: 'tags'
+      - source_labels: ['__meta_consul_node']
+        target_label: 'node'
+      - source_labels: ['__meta_consul_address']
+        target_label: 'instance'
+
+  - job_name: aphrodite
+    scrape_timeout: 20s
+    static_configs:
+      - targets: ['10g.api.aphrodite.vee.bz']
+    relabel_configs:
+      - source_labels: ['__address__']
+        target_label: 'instance'
+
+  - job_name: minion
+    consul_sd_configs:
+      - server: 127.0.0.1:8500
+        datacenter: hetzner1
+        services:
+          - minion
+
+    relabel_configs:
+      - source_labels: ['__address__']
+        target_label: 'instance'
+      - source_labels: ['__meta_consul_node']
+        target_label: 'node'

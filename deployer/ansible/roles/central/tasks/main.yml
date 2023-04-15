@@ -1,0 +1,12 @@
+- name: Upload services
+  template:
+    src: "{{ item }}.j2"
+    dest: "./{{ item }}"
+  with_items:
+    - modelserver.nomad
+
+- name: Tell nomad to run the updated job
+  command: nomad run {{item}}
+  run_once: yes
+  with_items:
+    - modelserver.nomad

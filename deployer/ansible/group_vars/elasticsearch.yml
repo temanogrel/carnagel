@@ -1,0 +1,4 @@
+nomad_meta:
+  - { key: special_app, value: "elasticsearch" }
+
+elasticsearch_node_name: hermes

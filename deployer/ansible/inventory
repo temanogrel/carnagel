@@ -1,0 +1,246 @@
+[hetzner_new]
+
+[hetzner_new:children]
+
+[hetzner_new:vars]
+ansible_user=ansible
+ansible_python_interpreter=/usr/bin/python2.7
+ansible_sudo_pass=bellanaleck
+internal_subnet=255.255.0.0
+
+;should be overwritten by individual hosts where necessary
+internal_network_interface=eth1
+step=network
+pipeline=yes
+
+[masters]
+10g.m1.vee.bz	        internal_ip=10.0.30.10 internal_network_interface=eth1
+10g.m2.vee.bz	        internal_ip=10.0.30.11 internal_network_interface=eth1
+10g.m3.vee.bz	        internal_ip=10.0.30.12 internal_network_interface=eth1
+
+[masters:vars]
+nomad_role=server
+consul_role=server
+
+[clients:children]
+application
+storage
+edge
+
+[general_cluster:children]
+storage
+edge
+
+[clients:vars]
+nomad_role=client
+consul_role=client
+internal_network_interface=eth1
+
+[application:children]
+postgres
+mysql
+minerva
+rabbitmq
+btc
+prometheus
+php
+misc
+elasticsearch
+
+[minerva]
+10g.minerva.vee.bz	    internal_ip=10.0.30.2
+
+[misc]
+10g.misc.vee.bz	        internal_ip=10.0.30.3
+
+[postgres]
+10g.postgres.vee.bz     internal_ip=10.0.30.6
+
+[mysql]
+10g.mysql.vee.bz	    internal_ip=10.0.30.7
+
+[rabbitmq]
+10g.rabbitmq.vee.bz	    internal_ip=10.0.30.8
+
+[prometheus]
+10g.prometheus.vee.bz   internal_ip=10.0.30.9
+
+[btc]
+10g.btc.vee.bz	        internal_ip=10.0.30.13
+
+[elasticsearch]
+10g.es1.vee.bz	        internal_ip=10.0.30.5 coordinator=true
+10g.es2.vee.bz          internal_ip=10.0.30.14
+10g.es3.vee.bz          internal_ip=10.0.30.16
+10g.es5.vee.bz          internal_ip=10.0.30.18
+10g.es6.vee.bz          internal_ip=10.0.30.19
+
+[php]
+php1.vee.bz internal_ip=10.0.30.1 nginx_master=yes
+php2.vee.bz internal_ip=10.0.30.4 nginx_master=no
+
+[application:vars]
+nomad_role=client
+consul_role=client
+internal_subnet=255.255.0.0
+
+[edge]
+10g.edge50.vee.bz internal_ip=10.0.10.50
+10g.edge51.vee.bz internal_ip=10.0.10.51
+10g.edge52.vee.bz internal_ip=10.0.10.52
+10g.edge53.vee.bz internal_ip=10.0.10.53
+10g.edge54.vee.bz internal_ip=10.0.10.54
+10g.edge55.vee.bz internal_ip=10.0.10.55
+10g.edge56.vee.bz internal_ip=10.0.10.56
+10g.edge57.vee.bz internal_ip=10.0.10.57
+10g.edge58.vee.bz internal_ip=10.0.10.58
+10g.edge59.vee.bz internal_ip=10.0.10.59
+10g.edge60.vee.bz internal_ip=10.0.10.60
+10g.edge61.vee.bz internal_ip=10.0.10.61
+10g.edge62.vee.bz internal_ip=10.0.10.62
+10g.edge63.vee.bz internal_ip=10.0.10.63
+10g.edge64.vee.bz internal_ip=10.0.10.64
+10g.edge65.vee.bz internal_ip=10.0.10.65
+10g.edge66.vee.bz internal_ip=10.0.10.66
+10g.edge67.vee.bz internal_ip=10.0.10.67
+10g.edge68.vee.bz internal_ip=10.0.10.68
+10g.edge69.vee.bz internal_ip=10.0.10.69
+10g.edge110.vee.bz internal_ip=10.0.10.110
+10g.edge111.vee.bz internal_ip=10.0.10.111
+10g.edge112.vee.bz internal_ip=10.0.10.112
+10g.edge113.vee.bz internal_ip=10.0.10.113
+10g.edge114.vee.bz internal_ip=10.0.10.114
+10g.edge115.vee.bz internal_ip=10.0.10.115
+10g.edge116.vee.bz internal_ip=10.0.10.116
+10g.edge117.vee.bz internal_ip=10.0.10.117
+10g.edge118.vee.bz internal_ip=10.0.10.118
+10g.edge119.vee.bz internal_ip=10.0.10.119
+10g.edge120.vee.bz internal_ip=10.0.10.120
+10g.edge122.vee.bz internal_ip=10.0.10.122
+10g.edge123.vee.bz internal_ip=10.0.10.123
+10g.edge124.vee.bz internal_ip=10.0.10.124
+10g.edge125.vee.bz internal_ip=10.0.10.125
+10g.edge126.vee.bz internal_ip=10.0.10.126
+10g.edge127.vee.bz internal_ip=10.0.10.127
+10g.edge128.vee.bz internal_ip=10.0.10.128
+10g.edge129.vee.bz internal_ip=10.0.10.129
+10g.edge132.vee.bz internal_ip=10.0.10.132
+10g.edge133.vee.bz internal_ip=10.0.10.133
+10g.edge134.vee.bz internal_ip=10.0.10.134
+10g.edge135.vee.bz internal_ip=10.0.10.135
+10g.edge136.vee.bz internal_ip=10.0.10.136
+10g.edge137.vee.bz internal_ip=10.0.10.137
+10g.edge138.vee.bz internal_ip=10.0.10.138
+10g.edge139.vee.bz internal_ip=10.0.10.139
+10g.edge140.vee.bz internal_ip=10.0.10.140
+10g.edge141.vee.bz internal_ip=10.0.10.141
+10g.edge142.vee.bz internal_ip=10.0.10.142
+10g.edge143.vee.bz internal_ip=10.0.10.143
+10g.edge144.vee.bz internal_ip=10.0.10.144
+10g.edge145.vee.bz internal_ip=10.0.10.145
+10g.edge146.vee.bz internal_ip=10.0.10.146
+10g.edge147.vee.bz internal_ip=10.0.10.147
+10g.edge148.vee.bz internal_ip=10.0.10.148
+10g.edge149.vee.bz internal_ip=10.0.10.149
+10g.edge150.vee.bz internal_ip=10.0.10.150
+10g.edge151.vee.bz internal_ip=10.0.10.151
+10g.edge152.vee.bz internal_ip=10.0.10.152
+10g.edge153.vee.bz internal_ip=10.0.10.153
+10g.edge154.vee.bz internal_ip=10.0.10.154
+10g.edge155.vee.bz internal_ip=10.0.10.155
+10g.edge156.vee.bz internal_ip=10.0.10.156
+10g.edge157.vee.bz internal_ip=10.0.10.157
+10g.edge158.vee.bz internal_ip=10.0.10.158
+10g.edge159.vee.bz internal_ip=10.0.10.159
+10g.edge160.vee.bz internal_ip=10.0.10.160
+10g.edge161.vee.bz internal_ip=10.0.10.161
+10g.edge162.vee.bz internal_ip=10.0.10.162
+10g.edge163.vee.bz internal_ip=10.0.10.163
+10g.edge164.vee.bz internal_ip=10.0.10.164
+10g.edge165.vee.bz internal_ip=10.0.10.165
+10g.edge166.vee.bz internal_ip=10.0.10.166
+10g.edge167.vee.bz internal_ip=10.0.10.167
+10g.edge168.vee.bz internal_ip=10.0.10.168
+10g.edge169.vee.bz internal_ip=10.0.10.169
+10g.edge170.vee.bz internal_ip=10.0.10.170
+10g.edge171.vee.bz internal_ip=10.0.10.171
+10g.edge172.vee.bz internal_ip=10.0.10.172
+10g.edge173.vee.bz internal_ip=10.0.10.173
+10g.edge174.vee.bz internal_ip=10.0.10.174
+10g.edge175.vee.bz internal_ip=10.0.10.175
+10g.edge176.vee.bz internal_ip=10.0.10.176
+10g.edge177.vee.bz internal_ip=10.0.10.177
+10g.edge178.vee.bz internal_ip=10.0.10.178
+10g.edge179.vee.bz internal_ip=10.0.10.179
+10g.edge180.vee.bz internal_ip=10.0.10.180
+10g.edge181.vee.bz internal_ip=10.0.10.181
+10g.edge182.vee.bz internal_ip=10.0.10.182
+10g.edge183.vee.bz internal_ip=10.0.10.183
+10g.edge184.vee.bz internal_ip=10.0.10.184
+10g.edge185.vee.bz internal_ip=10.0.10.185
+10g.edge186.vee.bz internal_ip=10.0.10.186
+10g.edge187.vee.bz internal_ip=10.0.10.187
+10g.edge188.vee.bz internal_ip=10.0.10.188
+10g.edge189.vee.bz internal_ip=10.0.10.189
+10g.edge190.vee.bz internal_ip=10.0.10.190
+10g.edge191.vee.bz internal_ip=10.0.10.191
+10g.edge192.vee.bz internal_ip=10.0.10.192
+10g.edge194.vee.bz internal_ip=10.0.10.194
+10g.edge195.vee.bz internal_ip=10.0.10.195
+10g.edge196.vee.bz internal_ip=10.0.10.196
+10g.edge197.vee.bz internal_ip=10.0.10.197
+10g.edge198.vee.bz internal_ip=10.0.10.198
+10g.edge199.vee.bz internal_ip=10.0.10.199
+10g.edge200.vee.bz internal_ip=10.0.10.200
+10g.edge201.vee.bz internal_ip=10.0.10.201
+10g.edge202.vee.bz internal_ip=10.0.10.202
+10g.edge203.vee.bz internal_ip=10.0.10.203
+10g.edge204.vee.bz internal_ip=10.0.10.204
+10g.edge205.vee.bz internal_ip=10.0.10.205
+10g.edge206.vee.bz internal_ip=10.0.10.206
+10g.edge207.vee.bz internal_ip=10.0.10.207
+10g.edge208.vee.bz internal_ip=10.0.10.208
+10g.edge209.vee.bz internal_ip=10.0.10.209
+10g.edge210.vee.bz internal_ip=10.0.10.210
+10g.edge211.vee.bz internal_ip=10.0.10.211
+10g.edge212.vee.bz internal_ip=10.0.10.212
+10g.edge213.vee.bz internal_ip=10.0.10.213
+10g.edge214.vee.bz internal_ip=10.0.10.214
+10g.edge215.vee.bz internal_ip=10.0.10.215
+10g.edge216.vee.bz internal_ip=10.0.10.216
+
+
+[edge:vars]
+nomad_role=client
+consul_role=client
+
+internal_subnet=255.255.0.0
+
+[storage]
+10g.bs81.vee.bz internal_ip=10.0.0.81
+10g.bs82.vee.bz internal_ip=10.0.0.82
+10g.bs83.vee.bz internal_ip=10.0.0.83
+10g.bs84.vee.bz internal_ip=10.0.0.84
+10g.bs85.vee.bz internal_ip=10.0.0.85
+10g.bs86.vee.bz internal_ip=10.0.0.86
+10g.bs87.vee.bz internal_ip=10.0.0.87
+10g.bs88.vee.bz internal_ip=10.0.0.88
+10g.bs90.vee.bz internal_ip=10.0.0.90
+10g.bs91.vee.bz internal_ip=10.0.0.91
+10g.bs92.vee.bz internal_ip=10.0.0.92
+10g.bs93.vee.bz internal_ip=10.0.0.93
+10g.bs94.vee.bz internal_ip=10.0.0.94
+10g.bs95.vee.bz internal_ip=10.0.0.95
+10g.bs96.vee.bz internal_ip=10.0.0.96
+10g.bs97.vee.bz internal_ip=10.0.0.97
+10g.bs98.vee.bz internal_ip=10.0.0.98
+10g.bs99.vee.bz internal_ip=10.0.0.99
+10g.bs100.vee.bz internal_ip=10.0.0.100
+10g.bs101.vee.bz internal_ip=10.0.0.101
+10g.bs102.vee.bz internal_ip=10.0.0.102
+10g.bs103.vee.bz internal_ip=10.0.0.103
+
+[storage:vars]
+nomad_role=client
+consul_role=client
+internal_subnet=255.255.0.0

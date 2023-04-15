@@ -1,0 +1,4 @@
+server_type: application
+
+nomad_meta:
+  - { key: general_cluster, value: 0}

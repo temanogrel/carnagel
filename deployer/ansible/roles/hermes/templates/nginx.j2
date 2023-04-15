@@ -1,0 +1,43 @@
+upstream hermes_backend {
+    least_conn;
+
+{% for host in groups['php'] %}
+    server {{ hostvars[host]['internal_ip'] }}:9000;
+{% endfor %}
+
+    zone hermes_backend 256k;
+	keepalive 256;
+}
+
+server {
+    listen 80;
+    server_name cur.bz pip.bz www.cur.bz www.pip.bz;
+    root {{paths.public}};
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    access_log /var/log/nginx/hermes_access.log;
+    error_log /var/log/nginx/hermes_error.log;
+
+    location ~* \.php$ {
+        include fastcgi_params;
+
+        fastcgi_pass  hermes_backend;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    location = /favicon.ico {
+        return 204;
+    }
+
+    location = /robots.txt {
+        log_not_found off;
+        access_log off;
+    }
+}

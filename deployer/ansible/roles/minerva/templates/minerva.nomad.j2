@@ -1,0 +1,95 @@
+job "minerva" {
+  region = "global"
+  datacenters = [
+    "hetzner1"
+  ]
+
+  type = "service"
+
+  constraint {
+    attribute = "${meta.special_app}"
+    operator = "set_contains"
+    value = "minerva"
+  }
+
+  update {
+    stagger = "10s"
+    max_parallel = 1
+  }
+
+  group "minerva" {
+    count = 1
+
+    restart {
+      attempts = 6
+      interval = "1m"
+      delay = "10s"
+      mode = "delay"
+    }
+
+    task "minerva" {
+      driver = "docker"
+
+      config {
+        image = "registry.misc.vee.bz/carnagel/minerva:{{ build_number }}"
+
+        auth {
+          username = "gitlab+deploy-token-3"
+          password = "zfHb_JzC8eGNCZwS5X4x"
+        }
+
+        volumes = [
+          "/etc/ssl/server.crt:/etc/ssl/server.crt",
+          "/etc/ssl/server.key:/etc/ssl/server.key"
+        ]
+
+        network_mode = "host"
+      }
+
+      env {
+        PUBLIC_NIC = "eth0"
+      }
+
+      service {
+        name = "minerva"
+        tags = [
+          "minerva"
+        ]
+        port = "grpc"
+      }
+
+      service {
+        name = "minerva-metrics"
+        tags = ["minerva", "metrics", "http"]
+        port = "http_private"
+      }
+
+      service {
+        name = "minerva-locator"
+        tags = ["http"]
+        port = "http_public"
+      }
+
+      resources {
+        cpu = 14000
+        memory = 16288
+        network {
+          mbits = 100
+
+          port "grpc" {
+            static = 8081
+          }
+
+          port "http_public" {
+            static = 8082
+          }
+
+          port "http_private" {
+            static = 8080
+          }
+        }
+      }
+    }
+  }
+}
+

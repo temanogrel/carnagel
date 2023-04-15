@@ -1,0 +1,8 @@
+git:
+  repo: 'git@git.misc.vee.bz:carnagel/ultron-backend.git'
+  branch: 'master'
+
+paths:
+  public: '/opt/ultron/public'
+  application: '/opt/ultron'
+

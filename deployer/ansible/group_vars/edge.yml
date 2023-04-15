@@ -1,0 +1,5 @@
+server_type: edge
+
+nomad_meta:
+  - { key: special_app, value: minion }
+  - { key: general_cluster, value: 1}

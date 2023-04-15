@@ -1,0 +1,13 @@
+php_extended_packages:
+  - php7.1-bcmath
+  - php7.1-gmp
+  - php7.1-gd
+
+# PHP Configuration
+redis_enabled: true
+redis_branch: 3.1.2
+
+php_mysql_enabled: true
+
+nomad_meta:
+  - { key: special_app, value: php }

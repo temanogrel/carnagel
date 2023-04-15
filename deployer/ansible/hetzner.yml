@@ -1,0 +1,4 @@
+- name: Hetzner dev
+  hosts: hetzner_new
+  roles:
+   - { role: 'hetzner' }

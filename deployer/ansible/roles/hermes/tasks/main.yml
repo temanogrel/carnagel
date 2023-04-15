@@ -1,0 +1,4 @@
+- include: application.yml
+- include: database.yml
+- include: nginx.yml
+  when: nginx_master == 'yes'

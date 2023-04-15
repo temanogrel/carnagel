@@ -1,0 +1,5 @@
+- name: Run common against all servers
+  hosts:
+    - clients
+  roles:
+    - { role: common, tags: ['common'] }

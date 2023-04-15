@@ -1,0 +1,17 @@
+- name: Deploy mysql database
+  hosts: mysql
+  become: yes
+  roles:
+    - { role: 'mysql', tags: ['mysql']}
+    - { role: 'backup', tags: ['backup']}
+  vars:
+    current_env: mysql
+
+  tasks:
+    - name: Register mysql with consul
+      consul:
+        service_name: mysql
+        service_port: 3306
+        service_address: 10g.mysql.vee.bz
+        tags:
+          - mysql

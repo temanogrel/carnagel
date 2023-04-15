@@ -1,0 +1,38 @@
+export POSTGRES_EXPORTER_USER=postgres_exporter
+export POSTGRES_EXPORTER_PASS=postgres_exporter
+
+export INFINITY_DB_USER=infinity
+export INFINITY_DB_PASS=infinity
+export INFINITY_DB_NAME=infinity
+
+export MINERVA_DB_USER=minerva
+export MINERVA_DB_PASS=minerva
+export MINERVA_DB_NAME=minerva
+
+export PLUTUS_DB_USER=plutus
+export PLUTUS_DB_PASS=plutus
+export PLUTUS_DB_NAME=plutus
+
+
+##############
+### Mysql ####
+##############
+
+export MYSQL_EXPORTER_USER=mysql_exporter
+export MYSQL_EXPORTER_PASS=mysql_exporter
+export MYSQL_EXPORTER_HOST=%
+
+export ULTRON_DB_USER=ultron
+export ULTRON_DB_PASS=ultron
+export ULTRON_DB_NAME=ultron
+export ULTRON_DB_USER_HOST=%
+
+export HERMES_DB_USER=hermes
+export HERMES_DB_PASS=hermes
+export HERMES_DB_NAME=hermes
+export HERMES_DB_USER_HOST=%
+
+export APHRODITE_DB_USER=aphrodite
+export APHRODITE_DB_PASS=aphrodite
+export APHRODITE_DB_NAME=aphrodite
+export APHRODITE_DB_USER_HOST=%

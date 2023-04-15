@@ -1,0 +1,8 @@
+- name: Upload minerva templates
+  template:
+    src: minerva.nomad.j2
+    dest: ./minerva.nomad
+
+- name: Tell nomad to run the updated job
+  command: nomad run minerva.nomad
+  run_once: yes

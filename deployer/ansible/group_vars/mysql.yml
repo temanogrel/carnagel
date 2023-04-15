@@ -1,0 +1,47 @@
+install_raid_tools: yes
+
+mysql_bind_address: "{{ internal_ip }}"
+mysql_root_password: bellanaleck
+
+mysql_packages:
+  - mysql-client-5.7
+  - mysql-server-5.7
+
+mysql_databases:
+  - name: "{{ lookup('env', 'ULTRON_DB_NAME') }}"
+  - name: "{{ lookup('env', 'HERMES_DB_NAME') }}"
+  - name: "{{ lookup('env', 'APHRODITE_DB_NAME') }}"
+
+mysql_users:
+  - name: "{{ lookup('env', 'ULTRON_DB_USER') }}"
+    host: "{{ lookup('env', 'ULTRON_DB_USER_HOST') }}"
+    priv: "{{ lookup('env', 'ULTRON_DB_NAME') }}.*:ALL"
+    password: "{{ lookup('env', 'ULTRON_DB_PASS') }}"
+
+  - name: "{{ lookup('env', 'HERMES_DB_USER') }}"
+    host: "{{ lookup('env', 'HERMES_DB_USER_HOST') }}"
+    priv: "{{ lookup('env', 'HERMES_DB_NAME') }}.*:ALL"
+    password: "{{ lookup('env', 'HERMES_DB_PASS') }}"
+   
+  - name: "{{ lookup('env', 'APHRODITE_DB_USER') }}"
+    host: "{{ lookup('env', 'APHRODITE_DB_USER_HOST') }}"
+    priv: "{{ lookup('env', 'APHRODITE_DB_NAME') }}.*:ALL"
+    password: "{{ lookup('env', 'APHRODITE_DB_PASS') }}"
+
+  - name: "{{ lookup('env', 'MYSQL_EXPORTER_USER') }}"
+    host: "%"
+    priv: "*.*:SUPER,REPLICATION CLIENT"
+    password: "{{ lookup('env', 'MYSQL_EXPORTER_PASS') }}"
+
+
+# Log slow queries
+mysql_slow_query_log_enabled: yes
+mysql_slow_query_time: 2
+
+# InnoDB settings.
+mysql_innodb_file_per_table: "1"
+mysql_innodb_buffer_pool_size: "126G"
+mysql_innodb_log_file_size: "16G"
+mysql_innodb_log_buffer_size: "8M"
+mysql_innodb_flush_log_at_trx_commit: "1"
+mysql_innodb_lock_wait_timeout: "50"

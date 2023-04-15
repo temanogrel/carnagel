@@ -1,0 +1,8 @@
+git:
+  repo: 'git@github.com:carnagel/hermes.git'
+  branch: 'master'
+
+paths:
+  public: '/opt/hermes/public'
+  application: '/opt/hermes'
+

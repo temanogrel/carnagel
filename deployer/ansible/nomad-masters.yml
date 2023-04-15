@@ -1,0 +1,7 @@
+- name: Setup Nomad
+  hosts: masters
+  become: yes
+  roles:
+    - { role: common, tags: ['common'] }
+    - { role: docker, tags: ['docker'], when: nomad_role=='client' }
+    - { role: nomad, tags: ['nomad'] }

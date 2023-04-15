@@ -1,0 +1,91 @@
+job "central" {
+  region = "global"
+  datacenters = ["hetzner1"]
+  type = "service"
+
+  constraint {
+    attribute = "${meta.general_cluster}"
+    value = "1"
+  }
+
+  group "scrapers" {
+    count = 1
+
+    restart {
+      attempts = 6
+      interval = "1m"
+      delay = "10s"
+      mode = "delay"
+    }
+
+    task "modelserver" {
+      driver = "docker"
+
+      config {
+        image = "halleburtin/central:{{ build_number }}"
+        args = [
+          "/usr/bin/python3",
+          "application",
+          "api"
+        ]
+
+        auth {
+          email = "{{ lookup('env', 'DOCKER_EMAIL') }}"
+          username = "{{ lookup('env', 'DOCKER_USERNAME') }}"
+          password = "{{ lookup('env', 'DOCKER_PASSWORD') }}"
+        }
+
+        network_mode = "host"
+      }
+
+      service {
+        name = "modelserver"
+        port = "http"
+      }
+
+      resources {
+        cpu = 2000
+        memory = 4096
+
+        network {
+          mbits = 30
+
+          port "http" {
+          }
+        }
+      }
+    }
+
+
+    task "chaturbate" {
+      driver = "docker"
+
+      config {
+        image = "halleburtin/central:{{ build_number }}"
+        args = [
+          "/usr/bin/python3",
+          "application",
+          "downloading",
+          "scrape-cbc"
+        ]
+
+        auth {
+          email = "{{ lookup('env', 'DOCKER_EMAIL') }}"
+          username = "{{ lookup('env', 'DOCKER_USERNAME') }}"
+          password = "{{ lookup('env', 'DOCKER_PASSWORD') }}"
+        }
+
+        network_mode = "host"
+      }
+
+      resources {
+        cpu = 2000
+        memory = 16384
+
+        network {
+          mbits = 30
+        }
+      }
+    }
+  }
+}

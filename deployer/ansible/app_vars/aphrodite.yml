@@ -1,0 +1,9 @@
+git:
+  repo: 'git@git.misc.vee.bz:carnagel/aphrodite-backend.git'
+  branch: 'master'
+
+paths:
+  public: '/opt/aphrodite/public'
+  application: '/opt/aphrodite'
+
+

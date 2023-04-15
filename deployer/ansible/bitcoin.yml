@@ -1,0 +1,14 @@
+- name: Deploy the bitcoin payment gateway
+  hosts: btc
+  roles:
+    - { role: common, tags: ['common'] }
+    - { role: bitcoin, tags: ['btc', 'bitcoin'] }
+
+  pre_tasks:
+    - name: check component set
+      fail: msg="component is not defined"
+      when: component is not defined
+
+    - name: check build_number set if component is plutus or wallet
+      fail: msg="builder_number is not defined"
+      when: component == "plutus" or component == "btcwallet"

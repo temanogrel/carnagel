@@ -1,0 +1,84 @@
+install_raid_tools: yes
+
+postgresql_version: 9.6
+postgresql_encoding: UTF-8
+postgresql_collate: en_US.UTF-8
+postgresql_ctype: en_US.UTF-8
+postgresql_listen_addresses:
+  - "{{ internal_ip }}"
+
+# This allows access to all our database from all our users using password authentication on our internal network
+postgresql_pg_hba_custom:
+  - { type: host, database: all, user: all, method: password, comment: 'Allow all', address: 'all' }
+
+# performance related tweaks
+postgresql_max_connections: 2000
+postgresql_shared_buffers: 64GB
+postgresql_effective_cache_size: 192GB
+postgresql_maintenance_work_mem: 2GB
+postgresql_min_wal_size: 1GB
+postgresql_max_wal_size: 2GB
+postgresql_checkpoint_completion_target: 0.7
+postgresql_wal_buffers: 16MB
+postgresql_default_statistics_target: 100
+postgresql_temp_buffers: 32MB
+postgresql_work_mem: 32MB
+postgresql_seq_page_cost: 0.6
+postgresql_random_page_cost: 0.6
+postgresql_cpu_tuple_cost: 0.003
+postgresql_cpu_index_tuple_cost: 0.0010
+postgresql_cpu_operator_cost: 0.0005
+postgresql_synchronous_commit: off
+
+postgresql_users:
+  - name: "{{ lookup('env', 'MINERVA_DB_USER') }}"
+    pass: "{{ lookup('env', 'MINERVA_DB_PASS') }}"
+    encrypted: no
+
+  - name: "{{ lookup('env', 'INFINITY_DB_USER') }}"
+    pass: "{{ lookup('env', 'INFINITY_DB_PASS') }}"
+    encrypted: no
+
+  - name: "{{ lookup('env', 'PLUTUS_DB_USER') }}"
+    pass: "{{ lookup('env', 'PLUTUS_DB_PASS') }}"
+    encrypted: no
+
+  - name: "{{ lookup('env', 'POSTGRES_EXPORTER_USER') }}"
+    pass: "{{ lookup('env', 'POSTGRES_EXPORTER_PASS') }}"
+    encrypted: no
+
+postgresql_user_privileges:
+  - name: "{{ lookup('env', 'MINERVA_DB_USER') }}"
+    db: "{{ lookup('env', 'MINERVA_DB_NAME') }}"
+    priv: "ALL"
+
+  - name: "{{ lookup('env', 'INFINITY_DB_USER') }}"
+    db: "{{ lookup('env', 'INFINITY_DB_NAME') }}"
+    priv: "ALL"
+
+  - name: "{{ lookup('env', 'PLUTUS_DB_USER') }}"
+    db: "{{ lookup('env', 'PLUTUS_DB_NAME') }}"
+    priv: "ALL"
+
+  # Only give superuser power to the postgres exporter user
+  - name: "{{ lookup('env', 'POSTGRES_EXPORTER_USER') }}"
+    role_attr_flags: "SUPERUSER"
+
+postgresql_databases:
+  - name: "{{ lookup('env', 'MINERVA_DB_NAME') }}"
+    owner: "{{ lookup('env', 'MINERVA_DB_USER') }}"
+    hstore: no                  # flag to install the hstore extension on this database (yes/no)
+    uuid_ossp: yes              # flag to install the uuid-ossp extension on this database (yes/no)
+    citext: no                  # flag to install the citext extension on this database (yes/no)
+
+  - name: "{{ lookup('env', 'INFINITY_DB_NAME') }}"
+    owner: "{{ lookup('env', 'INFINITY_DB_NAME') }}"
+    hstore: no                  # flag to install the hstore extension on this database (yes/no)
+    uuid_ossp: yes              # flag to install the uuid-ossp extension on this database (yes/no)
+    citext: no                  # flag to install the citext extension on this database (yes/no)
+
+  - name: "{{ lookup('env', 'PLUTUS_DB_NAME') }}"
+    owner: "{{ lookup('env', 'PLUTUS_DB_NAME') }}"
+    hstore: no                  # flag to install the hstore extension on this database (yes/no)
+    uuid_ossp: yes              # flag to install the uuid-ossp extension on this database (yes/no)
+    citext: no                  # flag to install the citext extension on this database (yes/no)

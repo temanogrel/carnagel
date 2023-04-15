@@ -1,0 +1,4 @@
+- name: Setup Consul Bootstrap
+  hosts: general_cluster
+  roles:
+    - { role: docker-common }

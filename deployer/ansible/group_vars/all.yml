@@ -1,0 +1,9 @@
+# DO NOT REMOVE THIS
+ansible_ssh_pipelining: true
+
+docker_group_members:
+  - "newrelic"
+
+# This affects docker installs
+kernel_pkg_state: present
+cgroup_lite_pkg_state: present

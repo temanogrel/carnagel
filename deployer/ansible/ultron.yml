@@ -1,0 +1,22 @@
+---
+- name: Deploy ultron
+  hosts: php
+  roles:
+    - role: 'common'
+      tags: ['common']
+      become: yes
+        
+    - role: 'nginx'
+      tags: ['nginx']
+      become: yes
+      when: nginx_master == 'yes'
+
+    - role: 'php-fpm'
+      tags: ['php-fpm']
+      become: yes
+
+    - role: 'ultron'
+      tags: ['ultron']
+
+  vars_files:
+    - app_vars/ultron.yml

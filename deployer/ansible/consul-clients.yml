@@ -1,0 +1,5 @@
+- name: Setup Consul Bootstrap
+  hosts: clients
+  roles:
+    - { role: common, tags: ['common'] }
+    - { role: consul, tags: ['consul'] }

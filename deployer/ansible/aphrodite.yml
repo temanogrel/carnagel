@@ -1,0 +1,22 @@
+---
+- name: Deploy aphrodite
+  hosts: php
+  roles:
+    - role: 'nginx'
+      tags: ['nginx']
+      become: yes
+      when: nginx_master == 'yes'
+
+    - role: 'nginx-filebeat'
+      tags: ['nginx']
+      when: nginx_master == 'yes'
+
+    - role: 'php-fpm'
+      tags: ['php-fpm']
+      become: yes
+
+    - role: 'aphrodite'
+      tags: ['aphrodite']
+
+  vars_files:
+    - app_vars/aphrodite.yml

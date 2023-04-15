@@ -1,0 +1,80 @@
+- name: create prometheus dirs
+  become: yes
+  file:
+    path: "{{ item }}"
+    owner: nomad
+    group: nomad
+    state: directory
+  with_items:
+    - /etc/prometheus
+    - /etc/prometheus/rules
+    - /var/prometheus
+    - /var/node_exporter
+    - /var/node_exporter/textfile_collector
+    - /var/alertmanager
+    - /etc/alertmanager
+    - /etc/alertmanager/template
+
+- name: upload directory size script
+  become: yes
+  template:
+    src: "templates/dir_stats.sh.j2"
+    dest: "/var/node_exporter/dir_stats.sh"
+    owner: nomad
+    group: nomad
+    mode: 0755
+  tags:
+    - prom_config
+
+- name: Install prometheus configuration
+  become: yes
+  template:
+    src: prometheus.yml
+    dest: /etc/prometheus/prometheus.yml
+  register: prom_config
+  tags:
+    - prom_config
+
+- name: Install alertmanager configuration
+  become: yes
+  template:
+    src: alertmanager.yml.j2
+    dest: /etc/alertmanager/config.yml
+  register: alertmanager_config
+  tags:
+    - prom_config
+
+- name: upload alerting rules
+  become: yes
+  template:
+    src: "templates/{{ item }}.j2"
+    dest: "/etc/prometheus/rules/{{ item }}"
+    owner: nomad
+    group: nomad
+    mode: 0755
+  with_items:
+    - general.rules
+  register: alerts_config
+  tags:
+    - prom_config
+
+- name: Upload prometheus template
+  template:
+    src: prometheus.nomad
+    dest: ./prometheus.nomad
+
+- name: Tell nomad to run the updated job
+  command: nomad run prometheus.nomad
+  run_once: yes
+
+- name: reload prometheus
+  command: "curl -X POST http://{{ internal_ip }}:9090/-/reload"
+  when: prom_config|changed or alerts_config|changed
+  tags:
+    - prom_config
+
+- name: reload alertmanager
+  command: "curl -X POST http://{{ internal_ip }}:9091/-/reload"
+  when: alertmanager_config|changed
+  tags:
+    - prom_config

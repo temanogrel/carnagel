@@ -1,0 +1,9 @@
+- name: deploy infinity
+  hosts: masters
+  roles:
+    - infinity
+
+  pre_tasks:
+    - name: check required variables
+      fail: msg="build_number is not defined"
+      when: build_number is not defined

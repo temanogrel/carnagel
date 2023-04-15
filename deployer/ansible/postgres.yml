@@ -1,0 +1,40 @@
+- name: Deploy postgres database
+  hosts: postgres
+  become: yes
+  roles:
+    - { role: 'common', tags: ['common']}
+    - { role: 'postgres', tags: ['postgres']}
+    - { role: 'backup', tags: ['backup']}
+  vars:
+    current_env: postgres
+
+  tasks:
+    - name: Consul | Register the postgres with consul
+      consul:
+        service_name: postgres
+        service_port: 5432
+        service_address: 10g.postgres.vee.bz
+      tags:
+        - consul
+          
+    - name: Consulv KV | Add database configuration
+      consul_kv:
+        key: "{{ item.key }}"
+        value: "{{ lookup('env', item.value) }}"
+        state: present
+
+      with_items:
+        - { key: "plutus/postgres/user", value: "PLUTUS_DB_USER"}
+        - { key: "plutus/postgres/pass", value: "PLUTUS_DB_PASS"}
+        - { key: "plutus/postgres/name", value: "PLUTUS_DB_NAME"}
+
+        - { key: "infinity/postgres/user", value: "INFINITY_DB_USER"}
+        - { key: "infinity/postgres/pass", value: "INFINITY_DB_PASS"}
+        - { key: "infinity/postgres/name", value: "INFINITY_DB_NAME"}
+
+        - { key: "minerva/postgres/user", value: "MINERVA_DB_USER"}
+        - { key: "minerva/postgres/pass", value: "MINERVA_DB_PASS"}
+        - { key: "minerva/postgres/name", value: "MINERVA_DB_NAME"}
+
+      tags:
+        - consul

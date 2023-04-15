@@ -1,0 +1,13 @@
+- name: Setup Elasticsearch machine
+  hosts: elasticsearch
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - role: common
+      tags:
+        - common
+
+    - role: elasticsearch
+      tags:
+        - elasticsearch

@@ -1,0 +1,16 @@
+- name: Clear cache
+  command: php {{paths.application}}/console.php {{item}}
+  with_items:
+    - orm:clear-cache:metadata
+    - orm:clear-cache:query
+    - orm:clear-cache:result
+  run_once: yes
+
+- name: Install the database
+  command: php {{paths.application}}/console.php orm:schema-tool:update --complete --force
+  register: migrate_database
+  changed_when: "migrate_database.rc == 0 and 'Database schema updated successfully' in migrate_database.stdout"
+  run_once: yes
+
+- name: Generate proxies
+  command: php {{paths.application}}/console.php orm:generate:proxies

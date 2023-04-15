@@ -1,0 +1,9 @@
+- name: Allow insecure registry
+  template:
+    src: docker.json
+    dest: /etc/docker/daemon.json
+
+- name: Restart docker
+  service:
+    name: docker
+    state: restarted

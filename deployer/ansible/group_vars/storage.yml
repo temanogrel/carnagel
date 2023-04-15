@@ -1,0 +1,6 @@
+server_type: storage
+install_raid_tools: yes
+
+nomad_meta:
+  - { key: special_app, value: minion }
+  - { key: general_cluster, value: 1}

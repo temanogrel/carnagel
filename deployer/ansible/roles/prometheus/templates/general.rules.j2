@@ -1,0 +1,10 @@
+{% raw %}
+ALERT InstanceDown
+  IF up == 0
+  FOR 1m
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Instance {{ $labels.instance }} down",
+    description = "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute.",
+  }
+{% endraw %}
